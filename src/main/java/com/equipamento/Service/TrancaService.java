@@ -3,7 +3,7 @@ package com.equipamento.Service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import com.equipamento.Entity.StatusTranca;
@@ -20,26 +20,26 @@ import jakarta.transaction.Transactional;
 @Service
 public class TrancaService {
    
-    @Autowired
-    private  TrancaRepository trancaRepository;
     
-    @Autowired
-    private  TrancaMapper trancaMapper;
-    
-    @Autowired
-    private FuncionarioService funcionarioService;
-
-    @Autowired
-    private TotemService totemService;
-    
-    public TrancaService(){}
-    
+    private final TrancaRepository trancaRepository;
+    private final TrancaMapper trancaMapper;
+    private final FuncionarioService funcionarioService;
+    private final TotemService totemService;
     
 
-    /**
-     * Lista todas as trancas cadastradas no sistema.
-     * @return Uma lista de objetos Tranca.
-     */
+    public TrancaService(TrancaRepository trancaRepository,
+                         TrancaMapper trancaMapper,
+                         FuncionarioService funcionarioService,
+                         TotemService totemService) {
+        this.trancaRepository = trancaRepository;
+        this.trancaMapper = trancaMapper;
+        this.funcionarioService = funcionarioService;
+        this.totemService = totemService;
+    }
+
+    
+
+    
     public List<Tranca> listarTrancas() { // Nome mais claro
         return trancaRepository.findAll();
     }
@@ -148,7 +148,7 @@ public class TrancaService {
         totemService.salvarTotem(totem); // Precisaremos de salvarTotem em TotemService
 
         // Simula o envio de e-mail ao reparador (Regra R2 UC11)
-        // emailService.enviarEmail(dto.idFuncionario(), "Tranca Integrada", "Sua tranca foi integrada ao totem.");
+   
 
         return "Tranca integrada ao totem com sucesso.";
     }

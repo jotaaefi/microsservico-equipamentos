@@ -2,30 +2,28 @@ package com.equipamento.Controller; // Adapte para o seu pacote 'Controller'
 
 import com.equipamento.dto.TrancaRequestDTO;
 import com.equipamento.dto.TrancaRespostaDTO;
-import com.equipamento.dto.IntegrarTrancaDTO; // Importe este DTO
-import com.equipamento.dto.RetirarTrancaDTO; // Importe este DTO
-import com.equipamento.Entity.Tranca; // Model de Tranca
-import com.equipamento.Entity.StatusTranca; // Enum de StatusTranca
+import com.equipamento.dto.IntegrarTrancaDTO; 
+import com.equipamento.dto.RetirarTrancaDTO; 
+import com.equipamento.Entity.Tranca; 
+import com.equipamento.Entity.StatusTranca; 
 
-import com.equipamento.Service.TrancaService; // Seu TrancaService
+import com.equipamento.Service.TrancaService; 
 
-import com.equipamento.mapper.TrancaMapper;   // Seu TrancaMapper
-// import com.equipamento.mapper.BicicletaMapper; // Se precisar mapear Bicicleta para BicicletaRespostaDTO diretamente aqui
+import com.equipamento.mapper.TrancaMapper;   
 
-import jakarta.validation.Valid; // Para validação dos DTOs
-import jakarta.validation.constraints.NotNull; // Para PathVariables obrigatórias
+import jakarta.validation.Valid; 
+import jakarta.validation.constraints.NotNull; 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus; // Para retornar diferentes códigos HTTP
+import org.springframework.http.HttpStatus; 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*; // Anotações REST
-
+import org.springframework.web.bind.annotation.*; 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@RestController // Indica que esta classe é um controlador REST
-@RequestMapping("/tranca") // Define o caminho base para todos os endpoints neste controller
+@RestController 
+@RequestMapping("/tranca") 
 public class TrancaController {
 
     @Autowired

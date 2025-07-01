@@ -12,9 +12,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+@NoArgsConstructor 
 @Getter
 @Setter
 @Entity
@@ -47,8 +49,6 @@ public class Tranca {
     @JoinColumn(name = "totem_id") // Nome da coluna de chave estrangeira na tabela 'trancas'
     private Totem totem;
 
-   
-    public Tranca(){}
 
     
 

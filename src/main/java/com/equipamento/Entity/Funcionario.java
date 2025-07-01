@@ -8,14 +8,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor // Construtor sem argumentos para o JPA
+@NoArgsConstructor 
 @Entity
-@Table(name = "funcionarios") // Nomes de tabela no plural são uma boa prática
+@Table(name = "funcionarios") 
 public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id; // ID gerado automaticamente
+    private Integer id; 
 
     @Column(unique = true, nullable = false) // Matrícula é única e obrigatória
     private String matricula; // Gerada automaticamente pelo sistema (R2 UC15)
@@ -33,7 +33,7 @@ public class Funcionario {
     private String email;
 
     @Column(nullable = false)
-    private String senha; // Em um sistema real, a senha seria hashada e nunca armazenada em texto puro.
+    private String senha; 
 
    
 }

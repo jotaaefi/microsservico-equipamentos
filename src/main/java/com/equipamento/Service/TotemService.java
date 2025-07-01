@@ -7,7 +7,7 @@ import com.equipamento.Repository.TotemRepository;
 import com.equipamento.dto.TotemRequestDTO;
 import com.equipamento.mapper.TotemMapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import jakarta.transaction.Transactional; // Para operações que envolvem o banco de dados
 
 import java.util.List;
@@ -15,14 +15,15 @@ import java.util.Optional;
 
 @Service
 public class TotemService {
-    
-    @Autowired
-    private TotemRepository totemRepository;
 
-    @Autowired
-    private TotemMapper totemMapper;
+  
+    private final TotemRepository totemRepository;
+    private final TotemMapper totemMapper;
 
-    public TotemService(){}
+    public TotemService(TotemRepository totemRepository, TotemMapper totemMapper){
+        this.totemMapper = totemMapper;
+        this.totemRepository = totemRepository;
+    }
 
     public List<Totem> listarTotens() { 
         return totemRepository.findAll();
@@ -37,7 +38,7 @@ public class TotemService {
     @Transactional
     public Totem criarTotem(TotemRequestDTO requestDTO) {
         
-        Totem novoTotem = totemMapper.toEntity(requestDTO);
+        Totem novoTotem = (Totem) totemMapper.toEntity(requestDTO);
         return totemRepository.save(novoTotem);
     }
 

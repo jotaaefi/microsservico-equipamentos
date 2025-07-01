@@ -3,44 +3,47 @@ package com.equipamento.Controller;
 
 import com.equipamento.dto.TotemRequestDTO;
 import com.equipamento.dto.TotemRespostaDTO;
-import com.equipamento.dto.TrancaRespostaDTO; // Importe este DTO para a lista de trancas
-import com.equipamento.dto.BicicletaRespostaDTO; // Importe este DTO para a lista de bicicletas
+import com.equipamento.dto.TrancaRespostaDTO; 
+import com.equipamento.dto.BicicletaRespostaDTO; 
 
-import com.equipamento.Entity.Totem; // Model de Totem
+import com.equipamento.Entity.Totem; 
 
-import com.equipamento.Service.TotemService; // Seu TotemService
-import com.equipamento.mapper.TotemMapper;   // Seu TotemMapper
-import com.equipamento.mapper.TrancaMapper;   // Necessário para mapear Tranca para TrancaRespostaDTO
-import com.equipamento.mapper.BicicletaMapper; // Necessário para mapear Bicicleta para BicicletaRespostaDTO
+import com.equipamento.Service.TotemService; 
+import com.equipamento.mapper.TotemMapper;   
+import com.equipamento.mapper.TrancaMapper;   
+import com.equipamento.mapper.BicicletaMapper; 
 
-import jakarta.validation.Valid; // Para validação dos DTOs
-import jakarta.validation.constraints.NotNull; // Para PathVariables obrigatórias
+import jakarta.validation.Valid; 
+import jakarta.validation.constraints.NotNull; 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus; // Para retornar diferentes códigos HTTP
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*; // Anotações REST
+import org.springframework.web.bind.annotation.*; 
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@RestController // Indica que esta classe é um controlador REST
-@RequestMapping("/totem") // Define o caminho base para todos os endpoints neste controller
+@RestController 
+@RequestMapping("/totem")
 public class TotemController {
 
-    @Autowired
-    private TotemService totemService;
-    @Autowired
-    private TotemMapper totemMapper;
-    @Autowired // Necessário para mapear Tranca para TrancaRespostaDTO
-    private TrancaMapper trancaMapper;
-    @Autowired // Necessário para mapear Bicicleta para BicicletaRespostaDTO
-    private BicicletaMapper bicicletaMapper;
 
-    // Construtor vazio, se for o seu estilo
-    public TotemController() {}
+    private final TotemService totemService;
+    private final TotemMapper totemMapper;
+    private final TrancaMapper trancaMapper;
+    private final BicicletaMapper bicicletaMapper;
 
+    
+    public TotemController(TotemService totemService,
+                           TotemMapper totemMapper,
+                           TrancaMapper trancaMapper,
+                           BicicletaMapper bicicletaMapper) {
+        this.totemService = totemService;
+        this.totemMapper = totemMapper;
+        this.trancaMapper = trancaMapper;
+        this.bicicletaMapper = bicicletaMapper;
+    }
     
     @GetMapping
     public ResponseEntity<List<TotemRespostaDTO>> listarTotens() {
@@ -64,7 +67,7 @@ public class TotemController {
     @PostMapping
     public ResponseEntity<TotemRespostaDTO> criarTotem(@RequestBody @Valid TotemRequestDTO requestDTO) {
         Totem novoTotem = totemService.criarTotem(requestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(totemMapper.toResponseDTO(novoTotem));
+        return ResponseEntity.ok(totemMapper.toResponseDTO(novoTotem));
     }
 
   
@@ -81,8 +84,11 @@ public class TotemController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removerTotem(@PathVariable("id") @NotNull Integer id) {
         boolean removido = totemService.removerTotem(id);
-        // O serviço retorna false se não encontrar ou se não puder remover (ex: possui trancas)
-        return removido ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+        if(removido == true)
+            return ResponseEntity.ok().build();
+        else
+            return ResponseEntity.badRequest().build();
+        //  return removido ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
     }
 
     

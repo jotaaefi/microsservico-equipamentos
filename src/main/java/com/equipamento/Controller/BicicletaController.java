@@ -38,7 +38,7 @@ public class BicicletaController {
     private final BicicletaService bicicletaService;
     private final BicicletaMapper bicicletaMapper;
 
-    // CRIE ESTE CONSTRUTOR
+
     public BicicletaController(BicicletaService bicicletaService,
                                BicicletaMapper bicicletaMapper) {
         this.bicicletaService = bicicletaService;
@@ -79,7 +79,7 @@ public class BicicletaController {
                                      .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{id}") // Adicione esta anotação que estava faltando
+    @DeleteMapping("/{id}") 
     public ResponseEntity<Void> aposentarBicicleta(@PathVariable("id") @NotNull Integer id) {
         boolean aposentada = bicicletaService.aposentarBicicleta(id);
         return aposentada ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();

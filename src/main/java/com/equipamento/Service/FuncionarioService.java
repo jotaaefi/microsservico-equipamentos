@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service; 
 import jakarta.transaction.Transactional;
 
@@ -19,31 +19,23 @@ import com.equipamento.dto.FuncionarioRequestDTO;
 @Service
 public class FuncionarioService {
 
-    @Autowired
+  
     private FuncionarioRepository funcionarioRepository;
-
-    @Autowired
     private FuncionarioMapper funcionarioMapper;
-
-
     private static final AtomicInteger matriculaCounter = new AtomicInteger(1000);
 
-    // Construtor vazio, se for mantê-lo:
-    public FuncionarioService() {}
 
-    /**
-     * Lista todos os funcionários cadastrados no sistema (UC15).
-     * @return Uma lista de objetos Funcionario.
-     */
+    public FuncionarioService(FuncionarioRepository funcionarioRepository, FuncionarioMapper funcionarioMapper) {
+        this.funcionarioMapper = funcionarioMapper;
+        this.funcionarioRepository = funcionarioRepository;
+    }
+
+    
     public List<Funcionario> listarFuncionarios() {
         return funcionarioRepository.findAll();
     }
 
-    /**
-     * Busca um funcionário pelo seu ID (UC15).
-     * @param id O ID do funcionário.
-     * @return Um Optional contendo o funcionário, se encontrado, ou vazio.
-     */
+   
     public Optional<Funcionario> buscarFuncionarioPorId(Integer id) {
         return funcionarioRepository.findById(id);
     }

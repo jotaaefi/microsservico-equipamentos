@@ -25,7 +25,6 @@ public class BicicletaService {
     private final BicicletaMapper bicicletaMapper;
     private final FuncionarioService funcionarioService;
     private final TrancaService trancaService;
-
     private static final AtomicInteger numeroBicicletaCounter = new AtomicInteger(0);
 
 

@@ -10,7 +10,6 @@ import com.equipamento.mapper.FuncionarioMapper;   // Seu FuncionarioMapper
 import jakarta.validation.Valid; // Para validação dos DTOs
 import jakarta.validation.constraints.NotNull; // Para PathVariables obrigatórias
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus; // Para retornar diferentes códigos HTTP
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*; // Anotações REST
@@ -23,19 +22,17 @@ import java.util.stream.Collectors;
 @RequestMapping("/funcionario") // Define o caminho base para todos os endpoints neste controller
 public class FuncionarioController {
 
-    @Autowired
-    private FuncionarioService funcionarioService;
-    @Autowired
-    private FuncionarioMapper funcionarioMapper;
 
-    // Construtor vazio, se for o seu estilo
-    public FuncionarioController() {}
+    private final FuncionarioService funcionarioService;
+    private final FuncionarioMapper funcionarioMapper;
 
-    /**
-     * Lista todos os funcionários.
-     * GET /funcionario
-     * @return Lista de FuncionarioRespostaDTO.
-     */
+   
+    public FuncionarioController(FuncionarioService funcionarioService,
+                                 FuncionarioMapper funcionarioMapper) {
+        this.funcionarioService = funcionarioService;
+        this.funcionarioMapper = funcionarioMapper;
+    }
+   
     @GetMapping
     public ResponseEntity<List<FuncionarioRespostaDTO>> listarFuncionarios() {
         List<Funcionario> funcionarios = funcionarioService.listarFuncionarios();
@@ -45,12 +42,6 @@ public class FuncionarioController {
         return ResponseEntity.ok(resposta);
     }
 
-    /**
-     * Busca um funcionário por ID.
-     * GET /funcionario/{id}
-     * @param id ID do funcionário.
-     * @return FuncionarioRespostaDTO ou 404 Not Found.
-     */
     @GetMapping("/{id}")
     public ResponseEntity<FuncionarioRespostaDTO> buscarFuncionarioPorId(@PathVariable("id") @NotNull Integer id) {
         Optional<Funcionario> funcionarioOpt = funcionarioService.buscarFuncionarioPorId(id);
@@ -92,13 +83,7 @@ public ResponseEntity<FuncionarioRespostaDTO> atualizarFuncionario(@PathVariable
         return removido ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
-    /**
-     * Verifica se um funcionário existe em um sistema externo (ou mockado).
-     * GET /funcionario/existe?id={idFuncionario}
-     * Endpoint do seu FuncionarioController original.
-     * @param id ID ou matrícula do funcionário.
-     * @return true ou false.
-     */
+   
     @GetMapping("/existe")
     public ResponseEntity<Boolean> verificarFuncionarioExiste(@RequestParam("id") String id) {
         boolean existe = funcionarioService.verificarFuncionarioExiste(id);

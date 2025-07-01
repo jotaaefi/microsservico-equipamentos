@@ -13,10 +13,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-
+@NoArgsConstructor 
 @Getter
 @Setter
 @Entity
@@ -25,7 +26,7 @@ public class Totem {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id; // ID gerado automaticamente
+    private Integer id; 
 
     private String localizacao;
     private String descricao;   
@@ -33,9 +34,8 @@ public class Totem {
     @OneToMany(mappedBy = "totem", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Tranca> trancasNaRede = new ArrayList<>(); // Conforme UC14 (Opção para listar trancas)
 
-    public Totem(){}
 
-    // Métodos utilitários para adicionar e remover trancas (melhora a gestão da lista bidirecional)
+   
     public void addTranca(Tranca tranca) {
         trancasNaRede.add(tranca);
         tranca.setTotem(this); // Configura o lado ManyToOne na Tranca

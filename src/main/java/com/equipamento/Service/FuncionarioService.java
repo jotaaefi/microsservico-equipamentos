@@ -110,10 +110,8 @@ public class FuncionarioService {
 
   
     public boolean verificarFuncionarioExiste(String idFuncionario) {
-        logger.debug("Verificando funcionário externo (comportamento falso): {}", idFuncionario);
-        return true; // SIMULA que qualquer funcionário existe por padrão 
-        // SIMULA que qualquer funcionário existe por padrão
-        // Este método será substituído pela lógica de chamada externa no futuro.
+        logger.debug("Verificando funcionário externo (comportamento falso)."); 
+        return true; // SIMULA que qualquer funcionário existe por padrão
     }
   
 }

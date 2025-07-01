@@ -45,5 +45,10 @@ public class Totem {
         trancasNaRede.remove(tranca);
         tranca.setTotem(null); // Remove a associação no lado ManyToOne
     }
+
+    public Totem(String localizacao, String descricao) {
+        this.localizacao = localizacao;
+        this.descricao = descricao;
+    }
 }
        

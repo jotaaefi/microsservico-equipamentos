@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 import org.springframework.stereotype.Service; 
-import jakarta.transaction.Transactional;
+//import jakarta.transaction.Transactional;
 
 
 import com.equipamento.Entity.Funcionario; 
@@ -14,12 +14,15 @@ import com.equipamento.Repository.FuncionarioRepository;
 import com.equipamento.mapper.FuncionarioMapper;
 import com.equipamento.dto.FuncionarioRequestDTO; 
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class FuncionarioService {
 
-  
+    private static final Logger logger = LoggerFactory.getLogger(FuncionarioService.class);
+
+
     private FuncionarioRepository funcionarioRepository;
     private FuncionarioMapper funcionarioMapper;
     private static final AtomicInteger matriculaCounter = new AtomicInteger(1000);
@@ -43,10 +46,10 @@ public class FuncionarioService {
     /**
      * Cria um novo funcionário no sistema (UC15).
      * A matrícula é gerada automaticamente (Regra R2 UC15).
-     * @param requestDTO Dados do funcionário a ser criado.
-     * @return O funcionário criado e salvo no banco de dados.
+     * parametro -> requestDTO Dados do funcionário a ser criado.
+     * retorna O funcionário criado e salvo no banco de dados.
      */
-    @Transactional
+    //@Transactional
     public Funcionario criarFuncionario(FuncionarioRequestDTO requestDTO) {
         Funcionario novoFuncionario = funcionarioMapper.toEntity(requestDTO);
         novoFuncionario.setMatricula(String.valueOf(matriculaCounter.incrementAndGet()));
@@ -62,7 +65,7 @@ public class FuncionarioService {
     }
 
    
-    @Transactional
+    //@Transactional
     public Optional<Funcionario> atualizarFuncionario(Integer id, FuncionarioRequestDTO requestDTO) {
         Optional<Funcionario> funcionarioOpt = funcionarioRepository.findById(id);
 
@@ -93,10 +96,10 @@ public class FuncionarioService {
 
     /**
      * Remove (exclui) um funcionário do sistema (UC15).
-     * @param id O ID do funcionário a ser removido.
-     * @return true se o funcionário foi removido com sucesso, false caso contrário.
+     *  id O ID do funcionário a ser removido.
+     * retorna true se o funcionário foi removido com sucesso, false caso contrário.
      */
-    @Transactional
+    //@Transactional
     public boolean removerFuncionario(Integer id) {
         if (funcionarioRepository.existsById(id)) {
             funcionarioRepository.deleteById(id);
@@ -107,9 +110,10 @@ public class FuncionarioService {
 
   
     public boolean verificarFuncionarioExiste(String idFuncionario) {
-        System.out.println("DEBUG: Verificando funcionário externo (comportamento falso): " + idFuncionario);
-        return true; // SIMULA que qualquer funcionário existe por padrão
-        // Este método será substituído pela lógica de chamada externa com RestTemplate ou um mock mais sofisticado no futuro.
+        logger.debug("Verificando funcionário externo (comportamento falso): {}", idFuncionario);
+        return true; // SIMULA que qualquer funcionário existe por padrão 
+        // SIMULA que qualquer funcionário existe por padrão
+        // Este método será substituído pela lógica de chamada externa no futuro.
     }
   
 }

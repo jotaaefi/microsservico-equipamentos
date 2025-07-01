@@ -16,7 +16,7 @@ import com.equipamento.dto.IntegrarBicicletaDTO;
 import com.equipamento.dto.RetirarBicicletaDTO;
 import com.equipamento.mapper.BicicletaMapper;
 
-import jakarta.transaction.Transactional;
+//import jakarta.transaction.Transactional;
 
 @Service
 public class BicicletaService {
@@ -51,7 +51,7 @@ public class BicicletaService {
     }
 
    
-    @Transactional
+    //@Transactional
     public Bicicleta criarBicicleta(BicicletaRequestDTO requestDTO) {
         Bicicleta novaBicicleta = bicicletaMapper.toEntity(requestDTO);
         novaBicicleta.setNumero(numeroBicicletaCounter.incrementAndGet());
@@ -59,7 +59,7 @@ public class BicicletaService {
     }
 
    
-    @Transactional
+    //@Transactional
     public Optional<Bicicleta> atualizarBicicleta(Integer id, BicicletaRequestDTO requestDTO) {
         Optional<Bicicleta> bicicletaOpt = bicicletaRepository.findById(id);
         if (bicicletaOpt.isEmpty()) {
@@ -73,7 +73,7 @@ public class BicicletaService {
     }
 
   
-    @Transactional
+    //@Transactional
     public boolean aposentarBicicleta(Integer id) {
         Optional<Bicicleta> bicicletaOpt = bicicletaRepository.findById(id);
         if (bicicletaOpt.isEmpty()) {
@@ -93,7 +93,7 @@ public class BicicletaService {
     }
 
   
-    @Transactional
+    //@Transactional
     public String integrarBicicletaNaRede(IntegrarBicicletaDTO dto) {
         // Validação do funcionário (Reparador - UC08 Atores). Esta chamada depende do FuncionarioService ter verificarFuncionarioExiste.
         // Se o FuncionarioService não tiver este método ou for simplificado, esta linha pode precisar de um mock ou comportamento falso temporário.
@@ -135,13 +135,12 @@ public class BicicletaService {
         trancaService.salvarTranca(tranca);
 
         // Simula o envio de e-mail ao reparador (Regra R2 UC08)
-        // emailService.enviarEmail(dto.idFuncionario(), "Bicicleta Integrada", "Sua bicicleta foi integrada com sucesso.");
 
         return "Bicicleta integrada à rede com sucesso.";
     }
 
   
-    @Transactional
+    //@Transactional
     public String retirarBicicletaDaRede(RetirarBicicletaDTO dto) {
         // Validação do funcionário (Reparador - UC09 Atores)
         // Se o FuncionarioService não tiver este método ou for simplificado, esta linha pode precisar de um mock ou comportamento falso temporário.
@@ -198,7 +197,7 @@ public class BicicletaService {
         return "Bicicleta retirada da rede com sucesso.";
     }
 
-    @Transactional
+    //@Transactional
     public Optional<Bicicleta> atualizarStatusBicicleta(Integer idBicicleta, StatusBicicleta novoStatus) {
         Optional<Bicicleta> bicicletaOpt = bicicletaRepository.findById(idBicicleta);
         if (bicicletaOpt.isEmpty()) {

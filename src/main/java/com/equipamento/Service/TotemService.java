@@ -8,7 +8,7 @@ import com.equipamento.dto.TotemRequestDTO;
 import com.equipamento.mapper.TotemMapper;
 
 
-import jakarta.transaction.Transactional; // Para operações que envolvem o banco de dados
+//import jakarta.transaction.Transactional; // Para operações que envolvem o banco de dados
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +35,7 @@ public class TotemService {
     }
 
 
-    @Transactional
+    //@Transactional
     public Totem criarTotem(TotemRequestDTO requestDTO) {
         
         Totem novoTotem = (Totem) totemMapper.toEntity(requestDTO);
@@ -43,7 +43,7 @@ public class TotemService {
     }
 
    
-    @Transactional
+    //@Transactional
     public Optional<Totem> atualizarTotem(Integer id, TotemRequestDTO requestDTO) {
         Optional<Totem> totemOpt = totemRepository.findById(id);
 
@@ -62,7 +62,7 @@ public class TotemService {
     }
 
    
-    @Transactional
+    //@Transactional
     public boolean removerTotem(Integer id) { // UC14 - Manter Cadastro de Totens (Remoção)
         Optional<Totem> totemOpt = totemRepository.findById(id);
 
@@ -87,7 +87,7 @@ public class TotemService {
      * @param totem Objeto Totem a ser salvo.
      * @return O totem salvo.
      */
-    @Transactional
+   //@Transactional
     public Totem salvarTotem(Totem totem) { // Necessário para TrancaService
         return totemRepository.save(totem);
     }

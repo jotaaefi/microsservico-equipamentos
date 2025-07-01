@@ -1,4 +1,4 @@
-package com.equipamento.Controller; // Adapte para o seu pacote 'Controller'
+package com.equipamento.Controller;
 
 import com.equipamento.dto.TrancaRequestDTO;
 import com.equipamento.dto.TrancaRespostaDTO;
@@ -14,7 +14,7 @@ import com.equipamento.mapper.TrancaMapper;
 import jakarta.validation.Valid; 
 import jakarta.validation.constraints.NotNull; 
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus; 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*; 
@@ -26,12 +26,14 @@ import java.util.stream.Collectors;
 @RequestMapping("/tranca") 
 public class TrancaController {
 
-    @Autowired
-    private TrancaService trancaService;
-    @Autowired
-    private TrancaMapper trancaMapper;
+    private final TrancaService trancaService;
+ 
+    private final TrancaMapper trancaMapper;
    
-    public TrancaController() {}
+    public TrancaController(TrancaService trancaService, TrancaMapper trancaMapper) {
+        this.trancaMapper = trancaMapper;
+        this.trancaService = trancaService;
+    }
 
     @GetMapping
     public ResponseEntity<List<TrancaRespostaDTO>> listarTrancas() {

@@ -1,0 +1,39 @@
+package com.equipamento.Entity;
+
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor // Construtor sem argumentos para o JPA
+@Entity
+@Table(name = "funcionarios") // Nomes de tabela no plural são uma boa prática
+public class Funcionario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id; // ID gerado automaticamente
+
+    @Column(unique = true, nullable = false) // Matrícula é única e obrigatória
+    private String matricula; // Gerada automaticamente pelo sistema (R2 UC15)
+
+    private String nome;
+    private Integer idade;
+
+    @Enumerated(EnumType.STRING) // Salva o nome do enum no banco (ex: "REPARADOR")
+    private FuncaoFuncionario funcao; // Conforme R3 UC15
+
+    @Column(unique = true, nullable = false) // CPF é único e obrigatório
+    private String cpf;
+
+    @Column(unique = true, nullable = false) // Email é único e obrigatório
+    private String email;
+
+    @Column(nullable = false)
+    private String senha; // Em um sistema real, a senha seria hashada e nunca armazenada em texto puro.
+
+   
+}

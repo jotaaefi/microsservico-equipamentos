@@ -35,5 +35,12 @@ public class Funcionario {
     @Column(nullable = false)
     private String senha; 
 
-   
+   public Funcionario(String nome, Integer idade, FuncaoFuncionario funcao, String cpf, String email, String senha) {
+        this.nome = nome;
+        this.idade = idade;
+        this.funcao = funcao;
+        this.cpf = cpf;
+        this.email = email;
+        this.senha = senha;
+    }
 }

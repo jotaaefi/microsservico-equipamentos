@@ -1,6 +1,6 @@
 package com.equipamento.Entity;
 
 public enum FuncaoFuncionario {
-    ATENTENDE, 
-    BALCONISTA
+    ADMINISTRATIVO, // Conforme R3 UC15
+    REPARADOR;      // Conforme R3 UC15
 }

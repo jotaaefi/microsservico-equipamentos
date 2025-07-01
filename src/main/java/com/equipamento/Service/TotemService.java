@@ -38,7 +38,7 @@ public class TotemService {
     //@Transactional
     public Totem criarTotem(TotemRequestDTO requestDTO) {
         
-        Totem novoTotem = (Totem) totemMapper.toEntity(requestDTO);
+        Totem novoTotem =  totemMapper.toEntity(requestDTO);
         return totemRepository.save(novoTotem);
     }
 

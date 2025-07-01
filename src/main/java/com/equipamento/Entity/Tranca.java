@@ -49,7 +49,27 @@ public class Tranca {
     @JoinColumn(name = "totem_id") // Nome da coluna de chave estrangeira na tabela 'trancas'
     private Totem totem;
 
+     // Construtor com atributos básicos (sem bicicleta e totem)
+    public Tranca(Integer numero, String localizacao, String anoDeFabricacao, String modelo, StatusTranca statusTranca) {
+        this.numero = numero;
+        this.localizacao = localizacao;
+        this.anoDeFabricacao = anoDeFabricacao;
+        this.modelo = modelo;
+        this.statusTranca = statusTranca;
+    }
+    
+    
+    
+    public Tranca(Integer numero, String localizacao, String anoDeFabricacao, String modelo, StatusTranca statusTranca, Bicicleta bicicleta) {
+        this(numero, localizacao, anoDeFabricacao, modelo, statusTranca); // Chama o construtor acima
+        this.bicicleta = bicicleta;
+    }
 
+    // Construtor com atributos básicos, bicicleta e totem (se precisar de inicialização completa)
+    public Tranca(Integer numero, String localizacao, String anoDeFabricacao, String modelo, StatusTranca statusTranca, Bicicleta bicicleta, Totem totem) {
+        this(numero, localizacao, anoDeFabricacao, modelo, statusTranca, bicicleta); // Chama o construtor acima
+        this.totem = totem;
+    }
     
 
   

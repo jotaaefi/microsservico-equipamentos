@@ -27,5 +27,12 @@ public class Bicicleta {
     @Enumerated(EnumType.STRING) // Salva o nome do enum no banco (ex: "NOVA")
     private StatusBicicleta status;
 
+    public Bicicleta(String marca, String modelo, String ano, Integer numero, StatusBicicleta status) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.ano = ano;
+        this.numero = numero;
+        this.status = status;
+    }
 
 }

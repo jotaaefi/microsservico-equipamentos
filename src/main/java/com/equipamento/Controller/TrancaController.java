@@ -99,10 +99,13 @@ public class TrancaController {
         }
     }
 
+   
  
-    @PostMapping //("/{idTranca}/status/{acao}")
-    public ResponseEntity<TrancaRespostaDTO> atualizarStatusTranca(@PathVariable("idTranca") @NotNull Integer idTranca,
-                                                                    @PathVariable("acao") @NotNull String acao) {
+    @PostMapping("/{idTranca}/status/{acao}") // Endpoint da URL
+    public ResponseEntity<TrancaRespostaDTO> atualizarStatusTranca(@PathVariable @NotNull Integer idTranca, 
+            @PathVariable @NotNull String acao) {  
+        
+        
         StatusTranca novoStatus;
         try {
             novoStatus = StatusTranca.valueOf(acao.toUpperCase());

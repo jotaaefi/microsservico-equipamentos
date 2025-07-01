@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import com.equipamento.Entity.Bicicleta;
@@ -21,22 +21,24 @@ import jakarta.transaction.Transactional;
 @Service
 public class BicicletaService {
     
-    @Autowired 
-    private BicicletaRepository bicicletaRepository;
-    @Autowired 
-    private BicicletaMapper bicicletaMapper;
-
-    @Autowired 
-    private FuncionarioService funcionarioService; 
-
-    @Autowired 
-    private TrancaService trancaService; 
+    private final BicicletaRepository bicicletaRepository;
+    private final BicicletaMapper bicicletaMapper;
+    private final FuncionarioService funcionarioService;
+    private final TrancaService trancaService;
 
     private static final AtomicInteger numeroBicicletaCounter = new AtomicInteger(0);
 
 
     
-    public BicicletaService() {}
+    public BicicletaService(BicicletaRepository bicicletaRepository,
+                            BicicletaMapper bicicletaMapper,
+                            FuncionarioService funcionarioService,
+                            TrancaService trancaService) {
+        this.bicicletaRepository = bicicletaRepository;
+        this.bicicletaMapper = bicicletaMapper;
+        this.funcionarioService = funcionarioService;
+        this.trancaService = trancaService;
+    }
 
 
 
@@ -197,13 +199,6 @@ public class BicicletaService {
         return "Bicicleta retirada da rede com sucesso.";
     }
 
-    /**
-     * Método genérico para atualizar o status de uma bicicleta.
-     * Pode ser chamado por outros serviços (ex: Aluguel, Devolução - UC03, UC04).
-     * @param idBicicleta O ID da bicicleta.
-     * @param novoStatus O novo status a ser aplicado.
-     * @return Um Optional contendo a bicicleta atualizada, se encontrada, ou vazio.
-     */
     @Transactional
     public Optional<Bicicleta> atualizarStatusBicicleta(Integer idBicicleta, StatusBicicleta novoStatus) {
         Optional<Bicicleta> bicicletaOpt = bicicletaRepository.findById(idBicicleta);

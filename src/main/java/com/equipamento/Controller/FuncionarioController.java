@@ -59,52 +59,33 @@ public class FuncionarioController {
                              .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    /**
-     * Cria um novo funcionário.
-     * POST /funcionario
-     * @param requestDTO Dados do funcionário a ser criado.
-     * @return FuncionarioRespostaDTO do funcionário criado.
-     */
+    
     @PostMapping
     public ResponseEntity<FuncionarioRespostaDTO> criarFuncionario(@RequestBody @Valid FuncionarioRequestDTO requestDTO) {
-        try {
-            Funcionario novoFuncionario = funcionarioService.criarFuncionario(requestDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioMapper.toResponseDTO(novoFuncionario));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new FuncionarioRespostaDTO(
-                null, null, e.getMessage(), null, null, null, null // Retorna erro com mensagem (simplificado)
-            ));
-        }
+    try {
+        Funcionario novoFuncionario = funcionarioService.criarFuncionario(requestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioMapper.toResponseDTO(novoFuncionario));
+    } catch (IllegalArgumentException e) {
+        // RETORNE ResponseEntity<String> em vez de FuncionarioRespostaDTO com nulls
+        return ResponseEntity.badRequest().build(); 
     }
+}
 
-    /**
-     * Atualiza dados de um funcionário existente.
-     * PUT /funcionario/{id}
-     * @param id ID do funcionário.
-     * @param requestDTO Novos dados do funcionário.
-     * @return FuncionarioRespostaDTO do funcionário atualizado ou 404 Not Found / 400 Bad Request.
-     */
     @PutMapping("/{id}")
-    public ResponseEntity<FuncionarioRespostaDTO> atualizarFuncionario(@PathVariable("id") @NotNull Integer id,
-                                                                       @RequestBody @Valid FuncionarioRequestDTO requestDTO) {
-        try {
-            Optional<Funcionario> funcionarioAtualizadoOpt = funcionarioService.atualizarFuncionario(id, requestDTO);
-            return funcionarioAtualizadoOpt.map(funcionarioMapper::toResponseDTO)
-                                         .map(ResponseEntity::ok)
-                                         .orElseGet(() -> ResponseEntity.notFound().build());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new FuncionarioRespostaDTO(
-                null, null, e.getMessage(), null, null, null, null // Retorna erro com mensagem (simplificado)
-            ));
-        }
+public ResponseEntity<FuncionarioRespostaDTO> atualizarFuncionario(@PathVariable("id") @NotNull Integer id,
+                                                                   @RequestBody @Valid FuncionarioRequestDTO requestDTO) {
+    try {
+        Optional<Funcionario> funcionarioAtualizadoOpt = funcionarioService.atualizarFuncionario(id, requestDTO);
+        return funcionarioAtualizadoOpt.map(funcionarioMapper::toResponseDTO)
+                                     .map(ResponseEntity::ok)
+                                     .orElseGet(() -> ResponseEntity.notFound().build());
+    } catch (IllegalArgumentException e) {
+        // RETORNE ResponseEntity<String> em vez de FuncionarioRespostaDTO com nulls
+        return ResponseEntity.badRequest().build(); // Retorna 400 Bad Request com a mensagem de erro
     }
+}
 
-    /**
-     * Remove (exclui) um funcionário.
-     * DELETE /funcionario/{id}
-     * @param id ID do funcionário a ser removido.
-     * @return 200 OK se removido, 404 Not Found se não encontrado.
-     */
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removerFuncionario(@PathVariable("id") @NotNull Integer id) {
         boolean removido = funcionarioService.removerFuncionario(id);

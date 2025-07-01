@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -34,12 +34,18 @@ import jakarta.validation.constraints.NotNull;
 @RequestMapping("/bicicleta")
 public class BicicletaController {
     
-    @Autowired
-    private BicicletaService bicicletaService;
-    @Autowired
-    private BicicletaMapper bicicletaMapper;
+    
+    private final BicicletaService bicicletaService;
+    private final BicicletaMapper bicicletaMapper;
 
-    public BicicletaController() {}
+    // CRIE ESTE CONSTRUTOR
+    public BicicletaController(BicicletaService bicicletaService,
+                               BicicletaMapper bicicletaMapper) {
+        this.bicicletaService = bicicletaService;
+        this.bicicletaMapper = bicicletaMapper;
+    }
+
+
 
     @GetMapping
     public ResponseEntity<List<BicicletaRespostaDTO>> listarBicicletas() {

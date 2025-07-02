@@ -7,7 +7,7 @@ import com.equipamento.Entity.Totem;
 import com.equipamento.dto.TotemRequestDTO;
 import com.equipamento.dto.TotemRespostaDTO;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface TotemMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "trancasNaRede", ignore = true) // A lista de trancas não vem no RequestDTO

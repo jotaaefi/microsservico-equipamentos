@@ -5,10 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.1</version> <relativePath/> </parent>
+        <version>3.3.1</version>
+        <relativePath/>
+    </parent>
     
     <groupId>com.equipamento</groupId>
-    <artifactId>microsservico-equipamentos</artifactId> <version>0.0.1-SNAPSHOT</version>
+    <artifactId>microsservico-equipamentos</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <name>microsservico-equipamentos</name>
     <description>Microsserviço de Equipamentos para o trabalho de ES2</description>
     
@@ -34,12 +37,14 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>runtime</scope>
+            <scope>test</scope>
         </dependency>
+        
+        
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <scope>runtime</scope>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -58,6 +63,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-mapstruct-binding</artifactId>
+            <version>0.2.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -83,8 +96,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
+                            </path>
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>

@@ -11,4 +11,6 @@ public record BicicletaRespostaDTO(
     @NotNull String ano,
     @NotNull Integer numero,
     @NotNull StatusBicicleta status
-) {}
+) {
+        
+}

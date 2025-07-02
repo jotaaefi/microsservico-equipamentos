@@ -6,7 +6,7 @@ import com.equipamento.Service.BicicletaService;
 import com.equipamento.dto.BicicletaRequestDTO;
 import com.equipamento.dto.BicicletaRespostaDTO;
 import com.equipamento.dto.IntegrarBicicletaDTO;
-import com.equipamento.dto.RetirarBicicletaDTO; // Import adicionado
+import com.equipamento.dto.RetirarBicicletaDTO; 
 import com.equipamento.mapper.BicicletaMapper;
 import com.equipamento.trabalhoES2.TrabalhoEs2Application;
 import com.fasterxml.jackson.databind.ObjectMapper;

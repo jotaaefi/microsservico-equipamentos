@@ -1,10 +1,10 @@
-package com.equipamento.Service; // Seu pacote atual para Services e Testes
+package com.equipamento.Service; 
 
-import com.equipamento.Entity.Funcionario; // Seu modelo Funcionario
-import com.equipamento.Entity.FuncaoFuncionario; // Seu enum FuncaoFuncionario
+import com.equipamento.Entity.Funcionario; 
+import com.equipamento.Entity.FuncaoFuncionario; 
 
-import com.equipamento.Repository.FuncionarioRepository; // Seu repositório Funcionario
-import com.equipamento.dto.FuncionarioRequestDTO; // Seu DTO FuncionarioRequestDTO
+import com.equipamento.Repository.FuncionarioRepository; 
+import com.equipamento.dto.FuncionarioRequestDTO; 
 import com.equipamento.mapper.FuncionarioMapper;
 
 import org.junit.jupiter.api.BeforeEach;

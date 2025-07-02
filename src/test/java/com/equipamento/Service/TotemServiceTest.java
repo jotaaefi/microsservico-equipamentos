@@ -1,12 +1,12 @@
-package com.equipamento.Service; // Seu pacote atual para Services e Testes
+package com.equipamento.Service; 
 
-import com.equipamento.Entity.Totem;     // Seu modelo Totem
-import com.equipamento.Entity.Tranca;     // Seu modelo Tranca
-import com.equipamento.Entity.StatusTranca; // Seu enum StatusTranca (necessário para Tranca)
+import com.equipamento.Entity.Totem;     
+import com.equipamento.Entity.Tranca;     
+import com.equipamento.Entity.StatusTranca; 
 
-import com.equipamento.Repository.TotemRepository; // Seu repositório Totem
-import com.equipamento.dto.TotemRequestDTO; // Seu DTO TotemRequestDTO
-import com.equipamento.mapper.TotemMapper; // Seu mapper TotemMapper
+import com.equipamento.Repository.TotemRepository; 
+import com.equipamento.dto.TotemRequestDTO; 
+import com.equipamento.mapper.TotemMapper; 
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

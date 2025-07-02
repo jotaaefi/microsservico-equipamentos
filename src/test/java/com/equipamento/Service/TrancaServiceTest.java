@@ -1,16 +1,15 @@
-package com.equipamento.Service; // Seu pacote atual para Services e Testes
+package com.equipamento.Service; 
+import com.equipamento.Entity.Tranca;    
+import com.equipamento.Entity.StatusTranca; 
+import com.equipamento.Entity.Bicicleta; 
+import com.equipamento.Entity.StatusBicicleta; 
+import com.equipamento.Entity.Totem;     
 
-import com.equipamento.Entity.Tranca;     // Seu modelo Tranca
-import com.equipamento.Entity.StatusTranca; // Seu enum StatusTranca
-import com.equipamento.Entity.Bicicleta; // Seu modelo Bicicleta
-import com.equipamento.Entity.StatusBicicleta; // Seu enum StatusBicicleta (necessário para Bicicleta)
-import com.equipamento.Entity.Totem;     // Seu modelo Totem
-
-import com.equipamento.Repository.TrancaRepository; // Seu repositório Tranca
-import com.equipamento.dto.TrancaRequestDTO; // Seu DTO TrancaRequestDTO
-import com.equipamento.dto.IntegrarTrancaDTO; // Seu DTO IntegrarTrancaDTO
-import com.equipamento.dto.RetirarTrancaDTO; // Seu DTO RetirarTrancaDTO
-import com.equipamento.mapper.TrancaMapper; // Seu mapper TrancaMapper
+import com.equipamento.Repository.TrancaRepository; 
+import com.equipamento.dto.TrancaRequestDTO; 
+import com.equipamento.dto.IntegrarTrancaDTO; 
+import com.equipamento.dto.RetirarTrancaDTO; 
+import com.equipamento.mapper.TrancaMapper; 
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

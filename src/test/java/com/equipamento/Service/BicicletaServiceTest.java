@@ -2,8 +2,8 @@ package com.equipamento.Service;
 
 import com.equipamento.Entity.Bicicleta;
 import com.equipamento.Entity.StatusBicicleta;
-import com.equipamento.Entity.StatusTranca; // Importe StatusTranca para uso com Tranca
-import com.equipamento.Entity.Tranca;     // Importe Tranca para uso nas validações
+import com.equipamento.Entity.StatusTranca; 
+import com.equipamento.Entity.Tranca;     
 
 import com.equipamento.Repository.BicicletaRepository;
 import com.equipamento.dto.BicicletaRequestDTO;

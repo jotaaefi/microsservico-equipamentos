@@ -6,14 +6,14 @@ import java.util.Optional;
 
 import com.equipamento.Entity.FuncaoFuncionario;
 import com.equipamento.Entity.Funcionario;
-import com.equipamento.trabalhoES2.TrabalhoEs2Application; // Import necessário
+import com.equipamento.trabalhoES2.TrabalhoEs2Application;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ContextConfiguration; // Import necessário
+import org.springframework.test.context.ContextConfiguration; 
 
-// Adicionamos o @ContextConfiguration de volta para ajudar o teste a encontrar a configuração principal
+
 @DataJpaTest
 @ContextConfiguration(classes = TrabalhoEs2Application.class)
 public class FuncionarioRepositoryTest {

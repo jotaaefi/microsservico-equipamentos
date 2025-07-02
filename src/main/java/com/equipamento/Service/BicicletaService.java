@@ -192,7 +192,7 @@ public class BicicletaService {
         trancaService.salvarTranca(tranca);
 
         // Simula o envio de e-mail ao reparador (Regra R2 UC09)
-        // emailService.enviarEmail(dto.idFuncionario(), "Bicicleta Retirada", "Sua bicicleta foi retirada da rede.");
+        
 
         return "Bicicleta retirada da rede com sucesso.";
     }

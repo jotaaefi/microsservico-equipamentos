@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @SpringBootTest(classes = TrabalhoEs2Application.class)
-// O 'exclude' FOI REMOVIDO DAQUI E SUBSTITUÍDO PELA LINHA ABAIXO
+
 @TestPropertySource(properties = "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration")
 @AutoConfigureMockMvc
 public class TrancaControllerTest {

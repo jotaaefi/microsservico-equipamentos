@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-// Configuração de teste final e funcional para o seu projeto
+
 @SpringBootTest(classes = TrabalhoEs2Application.class)
 @AutoConfigureMockMvc
 @TestPropertySource(properties = "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration")
@@ -150,7 +150,7 @@ class TotemControllerTest {
         totem.setId(idTotem);
         totem.setTrancasNaRede(Arrays.asList(trancaComBicicleta, trancaSemBicicleta));
         
-        // CORREÇÃO AQUI: Usando o construtor do record com todos os campos
+        
         BicicletaRespostaDTO dtoBicicleta = new BicicletaRespostaDTO(100, "Caloi", "Mountain Bike", "2024", 123, StatusBicicleta.DISPONIVEL);
 
         when(totemService.buscarTotemPorId(idTotem)).thenReturn(Optional.of(totem));
@@ -164,7 +164,7 @@ class TotemControllerTest {
                 .andExpect(jsonPath("$[0].marca").value("Caloi"));
     }
 
-    // Dentro da classe TotemControllerTest.java
+ 
 
     @Test
     void removerTotem_deveRetornarBadRequest_quandoServicoRetornaFalse() throws Exception {
@@ -179,7 +179,7 @@ class TotemControllerTest {
     }
 
 
-    // Dentro da classe TotemControllerTest.java
+ 
 
     @Test
     void buscarTotemPorId_deveRetornarNotFound_quandoNaoEncontrado() throws Exception {

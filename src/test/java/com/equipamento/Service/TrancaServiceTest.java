@@ -46,7 +46,7 @@ class TrancaServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    // ... (os testes de listar, buscar, criar e atualizar não mudam e estão corretos) ...
+
     
     @Test
     void listarTrancas_deveRetornarTodasAsTrancas() {
@@ -82,7 +82,7 @@ class TrancaServiceTest {
         Totem totem = new Totem("Localizacao Totem", "Descricao Totem");
         totem.setId(100);
 
-        // CORREÇÃO: Adicionando anyString() pois o método espera um argumento
+        
         when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(1)).thenReturn(Optional.of(tranca));
         when(totemService.buscarTotemPorId(100)).thenReturn(Optional.of(totem));
@@ -95,7 +95,7 @@ class TrancaServiceTest {
         // Verificação
         assertEquals("Tranca integrada ao totem com sucesso.", resultado);
         assertEquals(StatusTranca.LIVRE, tranca.getStatusTranca());
-        // CORREÇÃO: Comparamos o ID do totem, não o objeto inteiro
+        
         assertEquals(totem.getId(), tranca.getTotemId()); 
         verify(trancaRepository, times(1)).save(tranca);
         verify(totemService, times(1)).salvarTotem(totem);
@@ -104,7 +104,7 @@ class TrancaServiceTest {
     @Test
     void integrarTrancaEmTotem_deveRetornarErro_quandoFuncionarioNaoExiste() {
         IntegrarTrancaDTO dto = new IntegrarTrancaDTO(100, 1, "funcInvalido");
-        // CORREÇÃO: Adicionando anyString()
+        
         when(funcionarioService.verificarFuncionarioExiste()).thenReturn(false);
         String resultado = trancaService.integrarTrancaEmTotem(dto);
         assertEquals("Funcionário não cadastrado.", resultado);
@@ -117,7 +117,7 @@ class TrancaServiceTest {
         IntegrarTrancaDTO dto = new IntegrarTrancaDTO(100, 1, "funcABC");
         Tranca tranca = new Tranca(1, "Local A", "2020", "Mod1", StatusTranca.NOVA);
         tranca.setId(1);
-        // CORREÇÃO: Usando setTotemId() para passar o ID (Integer)
+        
         tranca.setTotemId(200); // Tranca já associada a um totem de ID 200
 
         when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
@@ -189,5 +189,5 @@ class TrancaServiceTest {
         assertNull(tranca.getTotemId());
     }
     
-    // ... O resto dos seus testes que não usam a relação com Totem não precisam de alteração ...
+    
 }

@@ -171,7 +171,7 @@ class FuncionarioServiceTest {
     void atualizarFuncionario_deveAtualizarDadosDoFuncionario_quandoValido() {
         // Cenário
         Integer id = 1;
-        // CORREÇÃO: Mudar o CPF e Email no requestDTO para que a lógica de verificação seja acionada
+        
         FuncionarioRequestDTO requestDTO = new FuncionarioRequestDTO("Carlos Atualizado", 36, FuncaoFuncionario.ADMINISTRATIVO, "98765432109", "carlos.novo@email.com", "nova_senha");
         
         Funcionario funcionarioExistente = new Funcionario("Carlos", 35, FuncaoFuncionario.REPARADOR, "12345678901", "carlos@email.com", "senha_antiga");
@@ -238,8 +238,7 @@ class FuncionarioServiceTest {
         Funcionario outroFuncionarioComEmail = new Funcionario("Outro", 40, FuncaoFuncionario.ADMINISTRATIVO, "99988877766", "novo.email@email.com", "senha");
         
         when(funcionarioRepository.findById(id)).thenReturn(Optional.of(funcionarioExistente));
-        // CPF não mudou, então findByCpf não será chamado:
-        // when(funcionarioRepository.findByCpf("12345678901")).thenReturn(Optional.empty()); // REMOVIDO para que o verify never funcione.
+        
         when(funcionarioRepository.findByEmail("novo.email@email.com")).thenReturn(Optional.of(outroFuncionarioComEmail));
 
         // Ação e Verificação

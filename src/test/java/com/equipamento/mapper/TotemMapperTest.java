@@ -35,7 +35,7 @@ class TotemMapperTest {
     @Test
     void deveMapearEntidadeParaResponseDTOCorretamente() {
         // Arrange
-        // Criamos uma entidade Totem completa
+        // Criar uma entidade Totem completa
         Totem entidade = new Totem("Centro", "Ao lado da estação");
         entidade.setId(10);
         

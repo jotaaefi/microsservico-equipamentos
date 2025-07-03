@@ -3,7 +3,7 @@ package com.equipamento.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.equipamento.Entity.Totem;
+import com.equipamento.entity.Totem;
 import com.equipamento.dto.TotemRequestDTO;
 import com.equipamento.dto.TotemRespostaDTO;
 
@@ -14,5 +14,5 @@ public interface TotemMapper {
     Totem toEntity(TotemRequestDTO dto);
 
     @Mapping(target = "trancasNaRede", source = "trancasNaRede")
-    TotemRespostaDTO toResponseDTO(Totem entity);
+    TotemRespostaDTO toResponseDTO(Totem entidade);
 }

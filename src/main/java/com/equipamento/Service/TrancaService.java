@@ -1,4 +1,4 @@
-package com.equipamento.Service;
+package com.equipamento.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,10 +6,10 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.equipamento.Entity.StatusTranca;
-import com.equipamento.Entity.Totem;
-import com.equipamento.Entity.Tranca;
-import com.equipamento.Repository.TrancaRepository;
+import com.equipamento.entity.StatusTranca;
+import com.equipamento.entity.Totem;
+import com.equipamento.entity.Tranca;
+import com.equipamento.repository.TrancaRepository;
 import com.equipamento.dto.IntegrarTrancaDTO;
 import com.equipamento.dto.RetirarTrancaDTO;
 import com.equipamento.dto.TrancaRequestDTO;

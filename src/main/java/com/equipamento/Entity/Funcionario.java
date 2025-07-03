@@ -1,4 +1,4 @@
-package com.equipamento.Entity;
+package com.equipamento.entity;
 
 
 import jakarta.persistence.*;

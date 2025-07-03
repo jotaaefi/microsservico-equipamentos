@@ -1,9 +1,10 @@
 package com.equipamento.Service; 
 
-import com.equipamento.Entity.Funcionario; 
-import com.equipamento.Entity.FuncaoFuncionario; 
+import com.equipamento.entity.Funcionario; 
+import com.equipamento.entity.FuncaoFuncionario; 
 
-import com.equipamento.Repository.FuncionarioRepository; 
+import com.equipamento.repository.FuncionarioRepository;
+import com.equipamento.service.FuncionarioService;
 import com.equipamento.dto.FuncionarioRequestDTO; 
 import com.equipamento.mapper.FuncionarioMapper;
 
@@ -18,6 +19,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class FuncionarioServiceTest {

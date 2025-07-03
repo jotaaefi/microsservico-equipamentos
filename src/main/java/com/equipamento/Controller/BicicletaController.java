@@ -1,4 +1,4 @@
-package com.equipamento.Controller; 
+package com.equipamento.controller; 
 
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.equipamento.Entity.Bicicleta;
-import com.equipamento.Entity.StatusBicicleta;
-import com.equipamento.Service.BicicletaService;
+import com.equipamento.entity.Bicicleta;
+import com.equipamento.entity.StatusBicicleta;
+import com.equipamento.service.BicicletaService;
 import com.equipamento.dto.BicicletaRequestDTO;
 import com.equipamento.dto.BicicletaRespostaDTO;
 import com.equipamento.dto.IntegrarBicicletaDTO; 

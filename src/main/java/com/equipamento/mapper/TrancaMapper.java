@@ -1,6 +1,6 @@
 package com.equipamento.mapper;
 
-import com.equipamento.Entity.Tranca; 
+import com.equipamento.entity.Tranca; 
 import com.equipamento.dto.TrancaRequestDTO;
 import com.equipamento.dto.TrancaRespostaDTO;
 import org.mapstruct.Mapper;
@@ -13,7 +13,7 @@ public interface TrancaMapper {
     // O ID é gerado pelo banco.
     // O status inicial é definido como 'NOVA' (R1 UC13).
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "statusTranca", expression = "java(com.equipamento.Entity.StatusTranca.NOVA)") 
+    @Mapping(target = "statusTranca", expression = "java(com.equipamento.entity.StatusTranca.NOVA)") 
     @Mapping(target = "bicicleta", ignore = true)
     @Mapping(target = "totem", ignore = true)
     Tranca toEntity(TrancaRequestDTO dto);

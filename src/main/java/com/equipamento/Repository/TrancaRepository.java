@@ -1,9 +1,9 @@
-package com.equipamento.Repository;
+package com.equipamento.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.equipamento.Entity.Tranca;
+import com.equipamento.entity.Tranca;
 
 
 @Repository

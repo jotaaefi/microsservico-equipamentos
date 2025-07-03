@@ -1,11 +1,11 @@
 package com.equipamento.Controller;
 
-import com.equipamento.Entity.Bicicleta;
-import com.equipamento.Entity.StatusBicicleta;
-import com.equipamento.Entity.StatusTranca;
-import com.equipamento.Entity.Totem;
-import com.equipamento.Entity.Tranca;
-import com.equipamento.Service.TotemService;
+import com.equipamento.entity.Bicicleta;
+import com.equipamento.entity.StatusBicicleta;
+import com.equipamento.entity.StatusTranca;
+import com.equipamento.entity.Totem;
+import com.equipamento.entity.Tranca;
+import com.equipamento.service.TotemService;
 import com.equipamento.dto.*;
 import com.equipamento.mapper.BicicletaMapper;
 import com.equipamento.mapper.TotemMapper;

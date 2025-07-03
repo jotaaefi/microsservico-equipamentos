@@ -1,4 +1,4 @@
-package com.equipamento.Service; // Seu pacote atual
+package com.equipamento.service; // Seu pacote atual
 
 import java.util.List;
 import java.util.Optional;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 
 
-import com.equipamento.Entity.Funcionario; 
-import com.equipamento.Repository.FuncionarioRepository; 
+import com.equipamento.entity.Funcionario; 
+import com.equipamento.repository.FuncionarioRepository; 
 import com.equipamento.mapper.FuncionarioMapper;
 import com.equipamento.dto.FuncionarioRequestDTO; 
 

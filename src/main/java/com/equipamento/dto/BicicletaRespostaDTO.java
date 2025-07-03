@@ -1,6 +1,6 @@
 package com.equipamento.dto;
 
-import com.equipamento.Entity.StatusBicicleta;
+import com.equipamento.entity.StatusBicicleta;
 
 import jakarta.validation.constraints.NotNull;
 

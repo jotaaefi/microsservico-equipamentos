@@ -7,8 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 // ADICIONE ESTA ANOTAÇÃO FINAL
-@EntityScan(basePackages = "com.equipamento.Entity")
-@EnableJpaRepositories(basePackages = "com.equipamento.Repository")
+@EntityScan(basePackages = "com.equipamento.entity")
+@EnableJpaRepositories(basePackages = "com.equipamento.repository")
 @ComponentScan(basePackages = "com.equipamento")
 @SpringBootApplication
 public class TrabalhoEs2Application {

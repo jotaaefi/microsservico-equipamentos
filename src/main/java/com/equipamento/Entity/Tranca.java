@@ -1,4 +1,4 @@
-package com.equipamento.Entity;
+package com.equipamento.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference; 
 import jakarta.persistence.Entity;
@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import lombok.ToString; // <-- IMPORT ADICIONADO
 
 @NoArgsConstructor 
 @Getter
@@ -40,6 +40,7 @@ public class Tranca {
     private Bicicleta bicicleta;
 
     @JsonBackReference 
+    @ToString.Exclude 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "totem_id")
     private Totem totem; 

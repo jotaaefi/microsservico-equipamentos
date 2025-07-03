@@ -1,6 +1,6 @@
 package com.equipamento.Entity;
 
-// Imports de @JsonBackReference e @ManyToOne foram removidos pois não são mais necessários aqui
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

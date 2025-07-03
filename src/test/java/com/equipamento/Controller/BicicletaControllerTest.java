@@ -178,4 +178,21 @@ class BicicletaControllerTest {
     }
 
 
+    @Test
+    void integrarBicicletaNaRede_deveRetornarBadRequest_quandoServicoRetornaErro() throws Exception {
+        // Arrange
+        IntegrarBicicletaDTO integrarDTO = new IntegrarBicicletaDTO(1, 10, "FUNC01");
+        String mensagemDeErro = "A tranca não está disponível (LIVRE).";
+        
+        // Mockamos o serviço para retornar a mensagem de erro
+        when(bicicletaService.integrarBicicletaNaRede(any(IntegrarBicicletaDTO.class))).thenReturn(mensagemDeErro);
+
+        // Act & Assert
+        mockMvc.perform(post("/bicicleta/integrarNaRede")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(integrarDTO)))
+                .andExpect(status().isBadRequest()) // Esperamos o status 400 Bad Request
+                .andExpect(content().string(mensagemDeErro)); // E que o corpo da resposta seja a mensagem de erro
+    }
+
 }

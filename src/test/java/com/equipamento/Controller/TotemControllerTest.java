@@ -194,5 +194,17 @@ class TotemControllerTest {
                 .andExpect(status().isNotFound()); // Esperamos o status 404 Not Found
     }
 
+    @Test
+    void listarTrancasDoTotem_deveRetornarNotFound_quandoTotemNaoExiste() throws Exception {
+        
+        Integer idTotemInexistente = 999;
+        
+        // Configuramos o mock do serviço para simular que o totem não foi encontrado
+        when(totemService.buscarTotemPorId(idTotemInexistente)).thenReturn(Optional.empty());
 
+        // Act & Assert (Agir e Verificar)
+        mockMvc.perform(get("/totem/{idTotem}/trancas", idTotemInexistente)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound()); // Esperamos o status 404 Not Found
+    }
 }

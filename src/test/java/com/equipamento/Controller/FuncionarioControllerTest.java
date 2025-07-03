@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -126,4 +127,7 @@ class FuncionarioControllerTest {
                 .andExpect(jsonPath("$.nome").value("Ana Costa"))
                 .andExpect(jsonPath("$.matricula").value("MAT004"));
     }
+
+
+
 }

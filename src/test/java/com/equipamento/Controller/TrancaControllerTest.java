@@ -28,6 +28,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 
 @SpringBootTest(classes = TrabalhoEs2Application.class)
@@ -129,5 +130,19 @@ class TrancaControllerTest {
         // Act & Assert
         mockMvc.perform(post("/tranca/{idTranca}/status/{acao}", idTranca, acaoInvalida))
                 .andExpect(status().isBadRequest());
+    }
+
+
+        @Test
+        void removerTranca_deveRetornarBadRequest_quandoServicoRetornaFalse() throws Exception {
+        // Arrange
+        Integer idTranca = 1;
+        
+        // Mockamos o serviço para retornar 'false', simulando uma falha na remoção
+        when(trancaService.removerTranca(idTranca)).thenReturn(false);
+
+        // Act & Assert
+        mockMvc.perform(delete("/tranca/{id}", idTranca))
+                .andExpect(status().isBadRequest()); // Esperamos o status 400 Bad Request
     }
 }

@@ -16,7 +16,7 @@ import com.equipamento.dto.IntegrarBicicletaDTO;
 import com.equipamento.dto.RetirarBicicletaDTO;
 import com.equipamento.mapper.BicicletaMapper;
 
-//import jakarta.transaction.Transactional;
+
 
 @Service
 public class BicicletaService {

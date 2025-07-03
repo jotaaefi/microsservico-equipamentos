@@ -89,7 +89,7 @@ public class TotemController {
             return ResponseEntity.ok().build();
         else
             return ResponseEntity.badRequest().build();
-        //  return removido ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+        
     }
 
     

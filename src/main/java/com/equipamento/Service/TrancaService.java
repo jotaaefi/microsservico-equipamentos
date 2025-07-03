@@ -134,8 +134,8 @@ public class TrancaService {
         Totem totem = totemOpt.get();
 
         // 5. Verifica se a tranca já está associada a algum totem (não pode integrar se já estiver)
-        if (tranca.getTotem() != null) {
-             return "Tranca já está associada a um totem.";
+        if (tranca.getTotemId() != null) { // <-- CÓDIGO CORRIGIDO
+            return "Tranca já está associada a um totem.";
         }
 
 
@@ -182,7 +182,7 @@ public class TrancaService {
         Totem totem = totemOpt.get();
 
         // 5. Verifica se a tranca pertence ao totem informado
-        if (tranca.getTotem() == null || !tranca.getTotem().getId().equals(totem.getId())) {
+        if (tranca.getTotemId() == null || !tranca.getTotemId().equals(totem.getId())) {
             return "Tranca não está associada a este totem.";
         }
 

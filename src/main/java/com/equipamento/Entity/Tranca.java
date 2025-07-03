@@ -1,6 +1,6 @@
 package com.equipamento.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference; 
+// Imports de @JsonBackReference e @ManyToOne foram removidos pois não são mais necessários aqui
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -9,13 +9,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column; // Adicionado
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString; // <-- IMPORT ADICIONADO
+// O import do ToString.Exclude não é mais necessário aqui
 
 @NoArgsConstructor 
 @Getter
@@ -39,13 +39,15 @@ public class Tranca {
     @JoinColumn(name = "bicicleta_id")
     private Bicicleta bicicleta;
 
-    @JsonBackReference 
-    @ToString.Exclude 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "totem_id")
-    private Totem totem; 
-
-     // Construtor com atributos básicos (sem bicicleta e totem)
+    // --- ALTERAÇÃO PRINCIPAL ---
+    // Removemos a referência ao objeto Totem completo
+    // private Totem totem; 
+    
+    // E colocamos apenas o ID no lugar
+    @Column(name = "totem_id")
+    private Integer totemId;
+    
+    // ... construtores ...
     public Tranca(Integer numero, String localizacao, String anoDeFabricacao, String modelo, StatusTranca statusTranca) {
         this.numero = numero;
         this.localizacao = localizacao;

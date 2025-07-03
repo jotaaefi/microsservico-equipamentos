@@ -312,10 +312,10 @@ class FuncionarioServiceTest {
     @Test
     void verificarFuncionarioExiste_deveRetornarTrue_comComportamentoFalso() {
         // Cenário (Comportamento falso sempre retorna true)
-        String idFuncionario = "qualquerId";
+
 
         // Ação
-        boolean resultado = funcionarioService.verificarFuncionarioExiste(idFuncionario);
+        boolean resultado = funcionarioService.verificarFuncionarioExiste();
 
         // Verificação
         assertTrue(resultado);

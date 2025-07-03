@@ -97,7 +97,7 @@ public class BicicletaService {
     public String integrarBicicletaNaRede(IntegrarBicicletaDTO dto) {
         // Validação do funcionário (Reparador - UC08 Atores). Esta chamada depende do FuncionarioService ter verificarFuncionarioExiste.
         // Se o FuncionarioService não tiver este método ou for simplificado, esta linha pode precisar de um mock ou comportamento falso temporário.
-        boolean funcionarioExiste = funcionarioService.verificarFuncionarioExiste(dto.idFuncionario());
+        boolean funcionarioExiste = funcionarioService.verificarFuncionarioExiste();
         if (!funcionarioExiste) {
             return "Funcionário não cadastrado.";
         }
@@ -144,7 +144,7 @@ public class BicicletaService {
     public String retirarBicicletaDaRede(RetirarBicicletaDTO dto) {
         // Validação do funcionário (Reparador - UC09 Atores)
         // Se o FuncionarioService não tiver este método ou for simplificado, esta linha pode precisar de um mock ou comportamento falso temporário.
-        boolean funcionarioExiste = funcionarioService.verificarFuncionarioExiste(dto.idFuncionario());
+        boolean funcionarioExiste = funcionarioService.verificarFuncionarioExiste();
         if (!funcionarioExiste) {
             return "Funcionário não cadastrado.";
         }

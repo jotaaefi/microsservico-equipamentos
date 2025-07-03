@@ -15,7 +15,7 @@ import com.equipamento.dto.RetirarTrancaDTO;
 import com.equipamento.dto.TrancaRequestDTO;
 import com.equipamento.mapper.TrancaMapper;
 
-//import jakarta.transaction.Transactional;
+
 
 @Service
 public class TrancaService {
@@ -50,7 +50,7 @@ public class TrancaService {
     }
 
 
-    //@Transactional
+   
     public Tranca criarTranca(TrancaRequestDTO requestDTO) {
         // Converte o DTO para entidade Tranca (mapper já configura status NOVA e ignora ID)
         Tranca novaTranca = trancaMapper.toEntity(requestDTO);
@@ -58,7 +58,7 @@ public class TrancaService {
     }
 
     
-    //@Transactional
+  
     public Optional<Tranca> atualizarTranca(Integer id, TrancaRequestDTO requestDTO) {
         Optional<Tranca> trancaOpt = trancaRepository.findById(id);
 
@@ -77,7 +77,7 @@ public class TrancaService {
     }
 
    
-    //@Transactional
+   
     public boolean removerTranca(Integer id) { // UC13 - Manter Cadastro de Trancas (Remoção)
         Optional<Tranca> trancaOpt = trancaRepository.findById(id);
 
@@ -106,10 +106,10 @@ public class TrancaService {
 
 
     // UC11 - Incluir Tranca em Totem
-    //@Transactional
+  
     public String integrarTrancaEmTotem(IntegrarTrancaDTO dto) {
         // 1. Validação do funcionário (Reparador)
-        boolean funcionarioExiste = funcionarioService.verificarFuncionarioExiste(dto.idFuncionario());
+        boolean funcionarioExiste = funcionarioService.verificarFuncionarioExiste();
         if (!funcionarioExiste) {
             return "Funcionário não cadastrado."; // E1 UC11
         }
@@ -154,10 +154,10 @@ public class TrancaService {
     }
 
 
-    //@Transactional
+   
     public String retirarTrancaDoSistema(RetirarTrancaDTO dto) {
         // 1. Validação do funcionário (Reparador)
-        boolean funcionarioExiste = funcionarioService.verificarFuncionarioExiste(dto.idFuncionario());
+        boolean funcionarioExiste = funcionarioService.verificarFuncionarioExiste();
         if (!funcionarioExiste) {
             return "Funcionário não cadastrado.";
         }
@@ -211,14 +211,14 @@ public class TrancaService {
         trancaRepository.save(tranca);
         totemService.salvarTotem(totem); // Salva o totem atualizado
 
-        // Simula o envio de e-mail ao reparador (Regra R2 UC12)
-        // emailService.enviarEmail(dto.idFuncionario(), "Tranca Retirada", "Sua tranca foi retirada da rede.");
+        
+        
 
         return "Tranca retirada da rede com sucesso.";
     }
 
    
-    //@Transactional
+    
     public Tranca salvarTranca(Tranca tranca) {
         return trancaRepository.save(tranca);
     }
@@ -232,7 +232,7 @@ public class TrancaService {
 
 
     
-    //@Transactional
+   
     public Optional<Tranca> atualizarStatusTranca(Integer idTranca, StatusTranca novoStatus) {
         Optional<Tranca> trancaOpt = trancaRepository.findById(idTranca);
         if (trancaOpt.isEmpty()) {

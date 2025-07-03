@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*; // Anotações REST
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @RestController // Indica que esta classe é um controlador REST
 @RequestMapping("/funcionario") // Define o caminho base para todos os endpoints neste controller
@@ -34,11 +34,12 @@ public class FuncionarioController {
     }
    
     @GetMapping
-    public ResponseEntity<List<FuncionarioRespostaDTO>> listarFuncionarios() {
+        public ResponseEntity<List<FuncionarioRespostaDTO>> listarFuncionarios() {
         List<Funcionario> funcionarios = funcionarioService.listarFuncionarios();
         List<FuncionarioRespostaDTO> resposta = funcionarios.stream()
                 .map(funcionarioMapper::toResponseDTO)
-                .collect(Collectors.toList());
+                .toList(); 
+
         return ResponseEntity.ok(resposta);
     }
 
@@ -86,7 +87,7 @@ public ResponseEntity<FuncionarioRespostaDTO> atualizarFuncionario(@PathVariable
    
     @GetMapping("/existe")
     public ResponseEntity<Boolean> verificarFuncionarioExiste(@RequestParam("id") String id) {
-        boolean existe = funcionarioService.verificarFuncionarioExiste(id);
+        boolean existe = funcionarioService.verificarFuncionarioExiste(); //Comportamento falso
         return ResponseEntity.ok(existe);
     }
 }

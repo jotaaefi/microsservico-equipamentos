@@ -3,11 +3,11 @@ package com.equipamento.Controller;
 import com.equipamento.Service.TrancaService;
 import com.equipamento.mapper.TrancaMapper;
 import com.equipamento.trabalhoES2.TrabalhoEs2Application;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @TestPropertySource(properties = "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration")
 @AutoConfigureMockMvc
-public class TrancaControllerTest {
+class TrancaControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -38,8 +38,7 @@ public class TrancaControllerTest {
     @MockBean
     private TrancaMapper trancaMapper;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+   
 
     @Test
     void testeMinimo_deveCarregarContextoERodar() throws Exception {

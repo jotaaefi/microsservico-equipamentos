@@ -20,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*; 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @RestController 
 @RequestMapping("/tranca") 
@@ -37,11 +37,11 @@ public class TrancaController {
 
     @GetMapping
     public ResponseEntity<List<TrancaRespostaDTO>> listarTrancas() {
-        List<Tranca> trancas = trancaService.listarTrancas();
-        List<TrancaRespostaDTO> resposta = trancas.stream()
-                .map(trancaMapper::toResponseDTO)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(resposta);
+    List<Tranca> trancas = trancaService.listarTrancas();
+    List<TrancaRespostaDTO> resposta = trancas.stream()
+            .map(trancaMapper::toResponseDTO)
+            .toList(); 
+    return ResponseEntity.ok(resposta);
     }
 
  

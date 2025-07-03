@@ -3,6 +3,8 @@ package com.equipamento.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference; 
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,19 +33,20 @@ public class Totem {
     private String localizacao;
     private String descricao;   
 
+    @JsonManagedReference 
     @OneToMany(mappedBy = "totem", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Tranca> trancasNaRede = new ArrayList<>(); // Conforme UC14 (Opção para listar trancas)
+    private List<Tranca> trancasNaRede = new ArrayList<>();
 
 
    
     public void addTranca(Tranca tranca) {
         trancasNaRede.add(tranca);
-        tranca.setTotem(this); // Configura o lado ManyToOne na Tranca
+        tranca.setTotem(this);
     }
 
     public void removeTranca(Tranca tranca) {
         trancasNaRede.remove(tranca);
-        tranca.setTotem(null); // Remove a associação no lado ManyToOne
+        tranca.setTotem(null);
     }
 
     public Totem(String localizacao, String descricao) {
@@ -51,4 +54,3 @@ public class Totem {
         this.descricao = descricao;
     }
 }
-       

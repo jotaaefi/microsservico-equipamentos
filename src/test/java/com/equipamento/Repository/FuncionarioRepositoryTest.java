@@ -16,7 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 @DataJpaTest
 @ContextConfiguration(classes = TrabalhoEs2Application.class)
-public class FuncionarioRepositoryTest {
+class FuncionarioRepositoryTest {
 
     @Autowired
     private FuncionarioRepository funcionarioRepository;

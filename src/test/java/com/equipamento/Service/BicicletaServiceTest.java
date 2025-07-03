@@ -249,7 +249,7 @@ class BicicletaServiceTest {
         Tranca tranca = new Tranca(10, "LocalA", "2021", "ModZ", StatusTranca.LIVRE);
         tranca.setId(10);
 
-        when(funcionarioService.verificarFuncionarioExiste("func123")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(bicicletaRepository.findById(1)).thenReturn(Optional.of(bicicleta));
         when(trancaService.buscarTrancaPorId(10)).thenReturn(Optional.of(tranca));
         when(bicicletaRepository.save(any(Bicicleta.class))).thenReturn(bicicleta);
@@ -264,7 +264,7 @@ class BicicletaServiceTest {
         assertEquals(StatusTranca.OCUPADA, tranca.getStatusTranca());
         assertEquals(bicicleta, tranca.getBicicleta()); // Verifica se a bicicleta foi associada à tranca
 
-        verify(funcionarioService, times(1)).verificarFuncionarioExiste("func123");
+        verify(funcionarioService, times(1)).verificarFuncionarioExiste();
         verify(bicicletaRepository, times(1)).findById(1);
         verify(trancaService, times(1)).buscarTrancaPorId(10);
         verify(bicicletaRepository, times(1)).save(bicicleta);
@@ -275,14 +275,14 @@ class BicicletaServiceTest {
     void integrarBicicletaNaRede_deveRetornarErro_quandoFuncionarioNaoExiste() {
         // Cenário
         IntegrarBicicletaDTO dto = new IntegrarBicicletaDTO(1, 10, "funcInvalido");
-        when(funcionarioService.verificarFuncionarioExiste("funcInvalido")).thenReturn(false);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(false);
 
         // Ação
         String resultado = bicicletaService.integrarBicicletaNaRede(dto);
 
         // Verificação
         assertEquals("Funcionário não cadastrado.", resultado);
-        verify(funcionarioService, times(1)).verificarFuncionarioExiste("funcInvalido");
+        verify(funcionarioService, times(1)).verificarFuncionarioExiste();
         verify(bicicletaRepository, never()).findById(anyInt()); // Nenhuma outra chamada se falhar no funcionário
     }
 
@@ -290,7 +290,7 @@ class BicicletaServiceTest {
     void integrarBicicletaNaRede_deveRetornarErro_quandoBicicletaNaoEncontrada() {
         // Cenário
         IntegrarBicicletaDTO dto = new IntegrarBicicletaDTO(99, 10, "func123");
-        when(funcionarioService.verificarFuncionarioExiste("func123")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(bicicletaRepository.findById(99)).thenReturn(Optional.empty());
 
         // Ação
@@ -309,7 +309,7 @@ class BicicletaServiceTest {
         Bicicleta bicicleta = new Bicicleta("MarcaX", "ModeloY", "2020", 1, StatusBicicleta.EM_USO); // Status inválido
         bicicleta.setId(1);
 
-        when(funcionarioService.verificarFuncionarioExiste("func123")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(bicicletaRepository.findById(1)).thenReturn(Optional.of(bicicleta));
 
         // Ação
@@ -328,7 +328,7 @@ class BicicletaServiceTest {
         Bicicleta bicicleta = new Bicicleta("MarcaX", "ModeloY", "2020", 1, StatusBicicleta.NOVA);
         bicicleta.setId(1);
 
-        when(funcionarioService.verificarFuncionarioExiste("func123")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(bicicletaRepository.findById(1)).thenReturn(Optional.of(bicicleta));
         when(trancaService.buscarTrancaPorId(99)).thenReturn(Optional.empty());
 
@@ -350,7 +350,7 @@ class BicicletaServiceTest {
         Tranca tranca = new Tranca(10, "LocalA", "2021", "ModZ", StatusTranca.OCUPADA); // Status inválido
         tranca.setId(10);
 
-        when(funcionarioService.verificarFuncionarioExiste("func123")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(bicicletaRepository.findById(1)).thenReturn(Optional.of(bicicleta));
         when(trancaService.buscarTrancaPorId(10)).thenReturn(Optional.of(tranca));
 
@@ -368,14 +368,14 @@ class BicicletaServiceTest {
     @Test
     void retirarBicicletaDaRede_deveRetirarComSucesso_quandoValidoParaReparo() {
         // Cenário
-        IntegrarBicicletaDTO dtoIntegrar = new IntegrarBicicletaDTO(1, 10, "func123"); // para o setup
+       
         RetirarBicicletaDTO dto = new RetirarBicicletaDTO(1, 10, "func123", "REPARO");
         Bicicleta bicicleta = new Bicicleta("MarcaX", "ModeloY", "2020", 1, StatusBicicleta.DISPONIVEL);
         bicicleta.setId(1);
         Tranca tranca = new Tranca(10, "LocalA", "2021", "ModZ", StatusTranca.OCUPADA, bicicleta); // Tranca com a bicicleta
         tranca.setId(10);
 
-        when(funcionarioService.verificarFuncionarioExiste("func123")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(bicicletaRepository.findById(1)).thenReturn(Optional.of(bicicleta));
         when(trancaService.buscarTrancaPorId(10)).thenReturn(Optional.of(tranca));
         when(bicicletaRepository.save(any(Bicicleta.class))).thenReturn(bicicleta);
@@ -390,7 +390,7 @@ class BicicletaServiceTest {
         assertEquals(StatusTranca.LIVRE, tranca.getStatusTranca()); // Tranca deve ficar LIVRE
         assertNull(tranca.getBicicleta()); // Bicicleta deve ser desassociada da tranca
 
-        verify(funcionarioService, times(1)).verificarFuncionarioExiste("func123");
+        verify(funcionarioService, times(1)).verificarFuncionarioExiste();
         verify(bicicletaRepository, times(1)).findById(1);
         verify(trancaService, times(1)).buscarTrancaPorId(10);
         verify(bicicletaRepository, times(1)).save(bicicleta);
@@ -406,7 +406,7 @@ class BicicletaServiceTest {
         Tranca tranca = new Tranca(10, "LocalA", "2021", "ModZ", StatusTranca.OCUPADA, bicicleta);
         tranca.setId(10);
 
-        when(funcionarioService.verificarFuncionarioExiste("func123")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(bicicletaRepository.findById(1)).thenReturn(Optional.of(bicicleta));
         when(trancaService.buscarTrancaPorId(10)).thenReturn(Optional.of(tranca));
         when(bicicletaRepository.save(any(Bicicleta.class))).thenReturn(bicicleta);
@@ -421,7 +421,7 @@ class BicicletaServiceTest {
         assertEquals(StatusTranca.LIVRE, tranca.getStatusTranca()); // Tranca deve ficar LIVRE
         assertNull(tranca.getBicicleta()); // Bicicleta deve ser desassociada da tranca
 
-        verify(funcionarioService, times(1)).verificarFuncionarioExiste("func123");
+        verify(funcionarioService, times(1)).verificarFuncionarioExiste();
         verify(bicicletaRepository, times(1)).findById(1);
         verify(trancaService, times(1)).buscarTrancaPorId(10);
         verify(bicicletaRepository, times(1)).save(bicicleta);
@@ -432,14 +432,14 @@ class BicicletaServiceTest {
     void retirarBicicletaDaRede_deveRetornarErro_quandoFuncionarioNaoExiste() {
         // Cenário
         RetirarBicicletaDTO dto = new RetirarBicicletaDTO(1, 10, "funcInvalido", "REPARO");
-        when(funcionarioService.verificarFuncionarioExiste("funcInvalido")).thenReturn(false);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(false);
 
         // Ação
         String resultado = bicicletaService.retirarBicicletaDaRede(dto);
 
         // Verificação
         assertEquals("Funcionário não cadastrado.", resultado);
-        verify(funcionarioService, times(1)).verificarFuncionarioExiste("funcInvalido");
+        verify(funcionarioService, times(1)).verificarFuncionarioExiste(); //comportamento falso, sempre vai retornar true para essas situacoes
         verify(bicicletaRepository, never()).findById(anyInt());
     }
 
@@ -447,7 +447,7 @@ class BicicletaServiceTest {
     void retirarBicicletaDaRede_deveRetornarErro_quandoBicicletaNaoEncontrada() {
         // Cenário
         RetirarBicicletaDTO dto = new RetirarBicicletaDTO(99, 10, "func123", "REPARO");
-        when(funcionarioService.verificarFuncionarioExiste("func123")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true); //comportamento falso, sempre vai retornar true para essas situacoes
         when(bicicletaRepository.findById(99)).thenReturn(Optional.empty());
 
         // Ação
@@ -466,7 +466,7 @@ class BicicletaServiceTest {
         Bicicleta bicicleta = new Bicicleta("MarcaX", "ModeloY", "2020", 1, StatusBicicleta.NOVA); // Status inválido para retirada
         bicicleta.setId(1);
 
-        when(funcionarioService.verificarFuncionarioExiste("func123")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(bicicletaRepository.findById(1)).thenReturn(Optional.of(bicicleta));
 
         // Ação
@@ -485,7 +485,7 @@ class BicicletaServiceTest {
         Bicicleta bicicleta = new Bicicleta("MarcaX", "ModeloY", "2020", 1, StatusBicicleta.DISPONIVEL);
         bicicleta.setId(1);
 
-        when(funcionarioService.verificarFuncionarioExiste("func123")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(bicicletaRepository.findById(1)).thenReturn(Optional.of(bicicleta));
         when(trancaService.buscarTrancaPorId(99)).thenReturn(Optional.empty());
 
@@ -510,7 +510,7 @@ class BicicletaServiceTest {
         outraBicicleta.setId(99);
         tranca.setBicicleta(outraBicicleta); // Tranca está ocupada por OUTRA bicicleta
 
-        when(funcionarioService.verificarFuncionarioExiste("func123")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(bicicletaRepository.findById(1)).thenReturn(Optional.of(bicicleta));
         when(trancaService.buscarTrancaPorId(10)).thenReturn(Optional.of(tranca));
 
@@ -536,7 +536,7 @@ class BicicletaServiceTest {
         Tranca tranca = new Tranca(10, "LocalA", "2021", "ModZ", StatusTranca.LIVRE, bicicleta);
         tranca.setId(10);
 
-        when(funcionarioService.verificarFuncionarioExiste("func123")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(bicicletaRepository.findById(1)).thenReturn(Optional.of(bicicleta));
         when(trancaService.buscarTrancaPorId(10)).thenReturn(Optional.of(tranca));
 
@@ -560,7 +560,7 @@ class BicicletaServiceTest {
         Tranca tranca = new Tranca(10, "LocalA", "2021", "ModZ", StatusTranca.OCUPADA, bicicleta);
         tranca.setId(10);
 
-        when(funcionarioService.verificarFuncionarioExiste("func123")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(bicicletaRepository.findById(1)).thenReturn(Optional.of(bicicleta));
         when(trancaService.buscarTrancaPorId(10)).thenReturn(Optional.of(tranca));
 

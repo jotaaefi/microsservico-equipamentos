@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = TrabalhoEs2Application.class)
 @AutoConfigureMockMvc
 @TestPropertySource(properties = "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration")
-public class FuncionarioControllerTest {
+class FuncionarioControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

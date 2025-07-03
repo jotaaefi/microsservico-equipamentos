@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 import org.springframework.stereotype.Service; 
-//import jakarta.transaction.Transactional;
+
 
 
 import com.equipamento.Entity.Funcionario; 
@@ -109,7 +109,7 @@ public class FuncionarioService {
     }
 
   
-    public boolean verificarFuncionarioExiste(String idFuncionario) {
+    public boolean verificarFuncionarioExiste() {
         logger.debug("Verificando funcionário externo (comportamento falso)."); 
         return true; // SIMULA que qualquer funcionário existe por padrão
     }

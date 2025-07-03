@@ -45,12 +45,13 @@ public class TotemController {
         this.bicicletaMapper = bicicletaMapper;
     }
     
-    @GetMapping
-    public ResponseEntity<List<TotemRespostaDTO>> listarTotens() {
+   @GetMapping
+        public ResponseEntity<List<TotemRespostaDTO>> listarTotens() {
         List<Totem> totens = totemService.listarTotens();
         List<TotemRespostaDTO> resposta = totens.stream()
                 .map(totemMapper::toResponseDTO)
-                .collect(Collectors.toList());
+                .toList(); 
+
         return ResponseEntity.ok(resposta);
     }
 

@@ -1,14 +1,13 @@
-package com.equipamento.Controller; // Seu pacote atual
+package com.equipamento.Controller; 
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.web.bind.annotation.DeleteMapping; // Importar DeleteMapping
+import org.springframework.web.bind.annotation.DeleteMapping; 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +21,8 @@ import com.equipamento.Entity.StatusBicicleta;
 import com.equipamento.Service.BicicletaService;
 import com.equipamento.dto.BicicletaRequestDTO;
 import com.equipamento.dto.BicicletaRespostaDTO;
-import com.equipamento.dto.IntegrarBicicletaDTO; // ADICIONE ESTE IMPORT
-import com.equipamento.dto.RetirarBicicletaDTO; // ADICIONE ESTE IMPORT
+import com.equipamento.dto.IntegrarBicicletaDTO; 
+import com.equipamento.dto.RetirarBicicletaDTO; 
 
 import com.equipamento.mapper.BicicletaMapper;
 
@@ -50,10 +49,9 @@ public class BicicletaController {
     @GetMapping
     public ResponseEntity<List<BicicletaRespostaDTO>> listarBicicletas() {
         List<Bicicleta> bicicletas = bicicletaService.listarBicicletas();
-        List<BicicletaRespostaDTO> resposta = bicicletas.stream()
-                .map(bicicletaMapper::toResponseDTO)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(resposta);
+        List<BicicletaRespostaDTO> resposta = bicicletas.stream().map(bicicletaMapper::toResponseDTO).toList();
+                
+        return ResponseEntity.ok(resposta); 
     }
 
     @GetMapping("/{id}")

@@ -243,7 +243,7 @@ class TrancaServiceTest {
         totem.setId(100); // ATRIBUIR ID AO TOTEM NO TESTE
         // Note: Totem.addTranca(tranca) fará setTotem(this) na tranca e adicionará à lista.
 
-        when(funcionarioService.verificarFuncionarioExiste("funcABC")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(1)).thenReturn(Optional.of(tranca));
         when(totemService.buscarTotemPorId(100)).thenReturn(Optional.of(totem));
         when(trancaRepository.save(any(Tranca.class))).thenReturn(tranca);
@@ -258,7 +258,7 @@ class TrancaServiceTest {
         assertEquals(totem, tranca.getTotem()); // Verifica se a tranca foi associada ao totem
         assertTrue(totem.getTrancasNaRede().contains(tranca)); // Verifica se o totem contém a tranca
 
-        verify(funcionarioService, times(1)).verificarFuncionarioExiste("funcABC");
+        verify(funcionarioService, times(1)).verificarFuncionarioExiste();
         verify(trancaRepository, times(1)).findById(1);
         verify(totemService, times(1)).buscarTotemPorId(100);
         verify(trancaRepository, times(1)).save(tranca);
@@ -269,14 +269,14 @@ class TrancaServiceTest {
     void integrarTrancaEmTotem_deveRetornarErro_quandoFuncionarioNaoExiste() {
         // Cenário
         IntegrarTrancaDTO dto = new IntegrarTrancaDTO(100, 1, "funcInvalido");
-        when(funcionarioService.verificarFuncionarioExiste("funcInvalido")).thenReturn(false);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(false);
 
         // Ação
         String resultado = trancaService.integrarTrancaEmTotem(dto);
 
         // Verificação
         assertEquals("Funcionário não cadastrado.", resultado);
-        verify(funcionarioService, times(1)).verificarFuncionarioExiste("funcInvalido");
+        verify(funcionarioService, times(1)).verificarFuncionarioExiste();
         verify(trancaRepository, never()).findById(anyInt());
     }
 
@@ -284,7 +284,7 @@ class TrancaServiceTest {
     void integrarTrancaEmTotem_deveRetornarErro_quandoTrancaNaoEncontrada() {
         // Cenário
         IntegrarTrancaDTO dto = new IntegrarTrancaDTO(100, 99, "funcABC");
-        when(funcionarioService.verificarFuncionarioExiste("funcABC")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(99)).thenReturn(Optional.empty());
 
         // Ação
@@ -304,7 +304,7 @@ class TrancaServiceTest {
         Tranca tranca = new Tranca(1, "Local A", "2020", "Mod1", StatusTranca.LIVRE);
         tranca.setId(1);
 
-        when(funcionarioService.verificarFuncionarioExiste("funcABC")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(1)).thenReturn(Optional.of(tranca));
 
         // Ação
@@ -323,7 +323,7 @@ class TrancaServiceTest {
         Tranca tranca = new Tranca(1, "Local A", "2020", "Mod1", StatusTranca.NOVA);
         tranca.setId(1);
 
-        when(funcionarioService.verificarFuncionarioExiste("funcABC")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(1)).thenReturn(Optional.of(tranca));
         when(totemService.buscarTotemPorId(99)).thenReturn(Optional.empty());
 
@@ -345,7 +345,7 @@ class TrancaServiceTest {
         tranca.setId(1);
         tranca.setTotem(totemExistente); // Tranca já associada a um totem
 
-        when(funcionarioService.verificarFuncionarioExiste("funcABC")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(1)).thenReturn(Optional.of(tranca));
         // Mocka totemService para retornar o totem que queremos integrar, mas a tranca já está associada a outro
         when(totemService.buscarTotemPorId(100)).thenReturn(Optional.of(new Totem("Outro Local", "Outra Descricao")));
@@ -375,7 +375,7 @@ class TrancaServiceTest {
         totem.setId(100); // ATRIBUIR ID AO TOTEM NO TESTE
         totem.addTranca(tranca); // Simula que a tranca está no totem
 
-        when(funcionarioService.verificarFuncionarioExiste("funcABC")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(1)).thenReturn(Optional.of(tranca));
         when(totemService.buscarTotemPorId(100)).thenReturn(Optional.of(totem));
         when(trancaRepository.save(any(Tranca.class))).thenReturn(tranca);
@@ -390,7 +390,7 @@ class TrancaServiceTest {
         assertNull(tranca.getTotem()); // Tranca deve ser desassociada do totem
         assertFalse(totem.getTrancasNaRede().contains(tranca)); // Totem não deve conter a tranca
 
-        verify(funcionarioService, times(1)).verificarFuncionarioExiste("funcABC");
+        verify(funcionarioService, times(1)).verificarFuncionarioExiste();
         verify(trancaRepository, times(1)).findById(1);
         verify(totemService, times(1)).buscarTotemPorId(100);
         verify(trancaRepository, times(1)).save(tranca);
@@ -407,7 +407,7 @@ class TrancaServiceTest {
         totem.setId(100); // ATRIBUIR ID AO TOTEM NO TESTE
         totem.addTranca(tranca);
 
-        when(funcionarioService.verificarFuncionarioExiste("funcABC")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(1)).thenReturn(Optional.of(tranca));
         when(totemService.buscarTotemPorId(100)).thenReturn(Optional.of(totem));
         when(trancaRepository.save(any(Tranca.class))).thenReturn(tranca);
@@ -422,7 +422,7 @@ class TrancaServiceTest {
         assertNull(tranca.getTotem());
         assertFalse(totem.getTrancasNaRede().contains(tranca));
 
-        verify(funcionarioService, times(1)).verificarFuncionarioExiste("funcABC");
+        verify(funcionarioService, times(1)).verificarFuncionarioExiste();
         verify(trancaRepository, times(1)).findById(1);
         verify(totemService, times(1)).buscarTotemPorId(100);
         verify(trancaRepository, times(1)).save(tranca);
@@ -433,14 +433,14 @@ class TrancaServiceTest {
     void retirarTrancaDoSistema_deveRetornarErro_quandoFuncionarioNaoExiste() {
         // Cenário
         RetirarTrancaDTO dto = new RetirarTrancaDTO(100, 1, "funcInvalido", "REPARO");
-        when(funcionarioService.verificarFuncionarioExiste("funcInvalido")).thenReturn(false);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(false);
 
         // Ação
         String resultado = trancaService.retirarTrancaDoSistema(dto);
 
         // Verificação
         assertEquals("Funcionário não cadastrado.", resultado);
-        verify(funcionarioService, times(1)).verificarFuncionarioExiste("funcInvalido");
+        verify(funcionarioService, times(1)).verificarFuncionarioExiste();
         verify(trancaRepository, never()).findById(anyInt());
     }
 
@@ -448,7 +448,7 @@ class TrancaServiceTest {
     void retirarTrancaDoSistema_deveRetornarErro_quandoTrancaNaoEncontrada() {
         // Cenário
         RetirarTrancaDTO dto = new RetirarTrancaDTO(100, 99, "funcABC", "REPARO");
-        when(funcionarioService.verificarFuncionarioExiste("funcABC")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(99)).thenReturn(Optional.empty());
 
         // Ação
@@ -469,7 +469,7 @@ class TrancaServiceTest {
         Tranca tranca = new Tranca(1, "Local A", "2020", "Mod1", StatusTranca.OCUPADA, bicicleta);
         tranca.setId(1);
 
-        when(funcionarioService.verificarFuncionarioExiste("funcABC")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(1)).thenReturn(Optional.of(tranca));
 
         // Ação
@@ -489,7 +489,7 @@ class TrancaServiceTest {
         Tranca tranca = new Tranca(1, "Local A", "2020", "Mod1", StatusTranca.LIVRE);
         tranca.setId(1);
 
-        when(funcionarioService.verificarFuncionarioExiste("funcABC")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(1)).thenReturn(Optional.of(tranca));
         when(totemService.buscarTotemPorId(99)).thenReturn(Optional.empty());
 
@@ -515,7 +515,7 @@ class TrancaServiceTest {
         Totem totemNoDTO = new Totem("Localizacao Totem", "Descricao Totem");
         totemNoDTO.setId(100);
 
-        when(funcionarioService.verificarFuncionarioExiste("funcABC")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(1)).thenReturn(Optional.of(tranca));
         when(totemService.buscarTotemPorId(100)).thenReturn(Optional.of(totemNoDTO));
 
@@ -541,7 +541,7 @@ class TrancaServiceTest {
         totem.setId(100);
         totem.addTranca(tranca); // Simula que a tranca está no totem
 
-        when(funcionarioService.verificarFuncionarioExiste("funcABC")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(1)).thenReturn(Optional.of(tranca));
         when(totemService.buscarTotemPorId(100)).thenReturn(Optional.of(totem));
 
@@ -567,7 +567,7 @@ class TrancaServiceTest {
         totem.setId(100);
         totem.addTranca(tranca);
 
-        when(funcionarioService.verificarFuncionarioExiste("funcABC")).thenReturn(true);
+        when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(1)).thenReturn(Optional.of(tranca));
         when(totemService.buscarTotemPorId(100)).thenReturn(Optional.of(totem));
 

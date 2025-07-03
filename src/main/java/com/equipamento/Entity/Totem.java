@@ -1,4 +1,4 @@
-package com.equipamento.entity;
+package com.equipamento.Entity;
 
 import java.util.ArrayList;
 import java.util.List;

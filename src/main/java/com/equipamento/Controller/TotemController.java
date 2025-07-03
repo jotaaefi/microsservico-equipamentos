@@ -1,4 +1,4 @@
-package com.equipamento.controller;
+package com.equipamento.Controller;
 
 
 import com.equipamento.dto.TotemRequestDTO;
@@ -6,9 +6,9 @@ import com.equipamento.dto.TotemRespostaDTO;
 import com.equipamento.dto.TrancaRespostaDTO; 
 import com.equipamento.dto.BicicletaRespostaDTO; 
 
-import com.equipamento.entity.Totem; 
+import com.equipamento.Entity.Totem; 
 
-import com.equipamento.service.TotemService; 
+import com.equipamento.Service.TotemService; 
 import com.equipamento.mapper.TotemMapper;   
 import com.equipamento.mapper.TrancaMapper;   
 import com.equipamento.mapper.BicicletaMapper; 

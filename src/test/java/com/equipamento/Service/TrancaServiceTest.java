@@ -1,14 +1,11 @@
 package com.equipamento.Service; 
-import com.equipamento.entity.Tranca;    
-import com.equipamento.entity.StatusTranca; 
-import com.equipamento.entity.Bicicleta; 
-import com.equipamento.entity.StatusBicicleta; 
-import com.equipamento.entity.Totem;     
+import com.equipamento.Entity.Tranca;    
+import com.equipamento.Entity.StatusTranca; 
+import com.equipamento.Entity.Bicicleta; 
+import com.equipamento.Entity.StatusBicicleta; 
+import com.equipamento.Entity.Totem;     
 
-import com.equipamento.repository.TrancaRepository;
-import com.equipamento.service.FuncionarioService;
-import com.equipamento.service.TotemService;
-import com.equipamento.service.TrancaService;
+import com.equipamento.Repository.TrancaRepository; 
 import com.equipamento.dto.TrancaRequestDTO; 
 import com.equipamento.dto.IntegrarTrancaDTO; 
 import com.equipamento.dto.RetirarTrancaDTO; 
@@ -25,8 +22,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 class TrancaServiceTest {

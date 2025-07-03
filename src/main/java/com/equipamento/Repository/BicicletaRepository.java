@@ -1,6 +1,6 @@
-package com.equipamento.repository;
+package com.equipamento.Repository;
 
-import com.equipamento.entity.Bicicleta;
+import com.equipamento.Entity.Bicicleta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

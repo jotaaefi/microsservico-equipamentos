@@ -1,6 +1,6 @@
 package com.equipamento.Controller;
 
-import com.equipamento.service.TrancaService;
+import com.equipamento.Service.TrancaService;
 import com.equipamento.mapper.TrancaMapper;
 import com.equipamento.trabalhoES2.TrabalhoEs2Application;
 

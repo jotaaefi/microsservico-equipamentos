@@ -1,9 +1,9 @@
-package com.equipamento.service;
+package com.equipamento.Service;
 
 import org.springframework.stereotype.Service;
 
-import com.equipamento.entity.Totem;
-import com.equipamento.repository.TotemRepository;
+import com.equipamento.Entity.Totem;
+import com.equipamento.Repository.TotemRepository;
 import com.equipamento.dto.TotemRequestDTO;
 import com.equipamento.mapper.TotemMapper;
 

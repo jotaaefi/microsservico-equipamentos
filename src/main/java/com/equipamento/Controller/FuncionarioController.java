@@ -1,10 +1,10 @@
-package com.equipamento.controller; // Adapte para o seu pacote 'Controller'
+package com.equipamento.Controller; // Adapte para o seu pacote 'Controller'
 
 import com.equipamento.dto.FuncionarioRequestDTO;
 import com.equipamento.dto.FuncionarioRespostaDTO;
-import com.equipamento.entity.Funcionario; // Model de Funcionario
+import com.equipamento.Entity.Funcionario; // Model de Funcionario
 
-import com.equipamento.service.FuncionarioService; // Seu FuncionarioService
+import com.equipamento.Service.FuncionarioService; // Seu FuncionarioService
 import com.equipamento.mapper.FuncionarioMapper;   // Seu FuncionarioMapper
 
 import jakarta.validation.Valid; // Para validação dos DTOs

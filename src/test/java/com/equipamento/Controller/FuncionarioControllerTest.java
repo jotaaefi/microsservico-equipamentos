@@ -1,8 +1,8 @@
 package com.equipamento.Controller;
 
-import com.equipamento.entity.FuncaoFuncionario;
-import com.equipamento.entity.Funcionario;
-import com.equipamento.service.FuncionarioService;
+import com.equipamento.Entity.FuncaoFuncionario;
+import com.equipamento.Entity.Funcionario;
+import com.equipamento.Service.FuncionarioService;
 import com.equipamento.dto.FuncionarioRequestDTO;
 import com.equipamento.dto.FuncionarioRespostaDTO;
 import com.equipamento.mapper.FuncionarioMapper;

@@ -1,6 +1,6 @@
 package com.equipamento.mapper;
 
-import com.equipamento.entity.Funcionario; // Verifique se o pacote está correto (com.equipamento.Entity)
+import com.equipamento.Entity.Funcionario; // Verifique se o pacote está correto (com.equipamento.Entity)
 import com.equipamento.dto.FuncionarioRequestDTO; // Verifique se o pacote está correto
 import com.equipamento.dto.FuncionarioRespostaDTO; // Verifique se o pacote está correto
 import org.mapstruct.Mapper;

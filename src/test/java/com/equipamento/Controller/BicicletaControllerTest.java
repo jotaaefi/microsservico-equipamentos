@@ -1,8 +1,8 @@
 package com.equipamento.Controller;
 
-import com.equipamento.entity.Bicicleta;
-import com.equipamento.entity.StatusBicicleta;
-import com.equipamento.service.BicicletaService;
+import com.equipamento.Entity.Bicicleta;
+import com.equipamento.Entity.StatusBicicleta;
+import com.equipamento.Service.BicicletaService;
 import com.equipamento.dto.BicicletaRequestDTO;
 import com.equipamento.dto.BicicletaRespostaDTO;
 import com.equipamento.dto.IntegrarBicicletaDTO;
@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -151,7 +151,7 @@ class BicicletaControllerTest {
         
         BicicletaRespostaDTO respostaDTO = new BicicletaRespostaDTO(1, "Caloi", "10", "2023", 1, StatusBicicleta.EM_REPARO);
 
-        when(bicicletaService.atualizarStatusBicicleta((idBicicleta), (StatusBicicleta.EM_REPARO))).thenReturn(Optional.of(bicicletaAtualizada));
+        when(bicicletaService.atualizarStatusBicicleta(eq(idBicicleta), eq(StatusBicicleta.EM_REPARO))).thenReturn(Optional.of(bicicletaAtualizada));
         when(bicicletaMapper.toResponseDTO(bicicletaAtualizada)).thenReturn(respostaDTO);
 
         // Act & Assert

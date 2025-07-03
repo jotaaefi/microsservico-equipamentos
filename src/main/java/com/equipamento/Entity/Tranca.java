@@ -1,4 +1,4 @@
-package com.equipamento.entity;
+package com.equipamento.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference; 
 import jakarta.persistence.Entity;

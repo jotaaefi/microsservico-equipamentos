@@ -1,6 +1,6 @@
 package com.equipamento.dto;
 
-import com.equipamento.entity.FuncaoFuncionario;
+import com.equipamento.Entity.FuncaoFuncionario;
 
 import jakarta.validation.constraints.NotNull;
 

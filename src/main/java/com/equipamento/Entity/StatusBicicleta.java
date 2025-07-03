@@ -1,4 +1,4 @@
-package com.equipamento.entity;
+package com.equipamento.Entity;
 
 public enum StatusBicicleta {
     

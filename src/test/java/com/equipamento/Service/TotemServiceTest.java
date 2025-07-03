@@ -1,12 +1,10 @@
 package com.equipamento.Service; 
 
-import com.equipamento.entity.Totem;     
-import com.equipamento.entity.Tranca;     
-import com.equipamento.entity.StatusTranca; 
+import com.equipamento.Entity.Totem;     
+import com.equipamento.Entity.Tranca;     
+import com.equipamento.Entity.StatusTranca; 
 
-import com.equipamento.repository.TotemRepository;
-import com.equipamento.service.TotemService;
-import com.equipamento.service.TrancaService;
+import com.equipamento.Repository.TotemRepository; 
 import com.equipamento.dto.TotemRequestDTO; 
 import com.equipamento.mapper.TotemMapper; 
 
@@ -21,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class TotemServiceTest {

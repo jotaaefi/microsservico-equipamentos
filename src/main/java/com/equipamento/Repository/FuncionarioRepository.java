@@ -1,11 +1,11 @@
-package com.equipamento.repository;
+package com.equipamento.Repository;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.equipamento.entity.Funcionario;
+import com.equipamento.Entity.Funcionario;
 
 
 @Repository

@@ -1,6 +1,6 @@
 package com.equipamento.dto;
 
-import com.equipamento.entity.StatusTranca;
+import com.equipamento.Entity.StatusTranca;
 
 import jakarta.validation.constraints.NotNull;
 

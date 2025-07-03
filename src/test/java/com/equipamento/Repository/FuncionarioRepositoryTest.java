@@ -4,9 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
 
-import com.equipamento.entity.FuncaoFuncionario;
-import com.equipamento.entity.Funcionario;
-import com.equipamento.repository.FuncionarioRepository;
+import com.equipamento.Entity.FuncaoFuncionario;
+import com.equipamento.Entity.Funcionario;
 import com.equipamento.trabalhoES2.TrabalhoEs2Application;
 
 import org.junit.jupiter.api.Test;

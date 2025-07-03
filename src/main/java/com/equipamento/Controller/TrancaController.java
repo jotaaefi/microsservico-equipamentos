@@ -1,13 +1,13 @@
-package com.equipamento.controller;
+package com.equipamento.Controller;
 
 import com.equipamento.dto.TrancaRequestDTO;
 import com.equipamento.dto.TrancaRespostaDTO;
 import com.equipamento.dto.IntegrarTrancaDTO; 
 import com.equipamento.dto.RetirarTrancaDTO; 
-import com.equipamento.entity.Tranca; 
-import com.equipamento.entity.StatusTranca; 
+import com.equipamento.Entity.Tranca; 
+import com.equipamento.Entity.StatusTranca; 
 
-import com.equipamento.service.TrancaService; 
+import com.equipamento.Service.TrancaService; 
 
 import com.equipamento.mapper.TrancaMapper;   
 

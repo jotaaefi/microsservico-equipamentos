@@ -159,4 +159,23 @@ class BicicletaControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("EM_REPARO"));
     }
+
+     @Test
+    void atualizarBicicleta_deveRetornarNotFound_quandoBicicletaNaoExiste() throws Exception {
+        // Arrange (Organizar)
+        Integer idNaoExistente = 99;
+        BicicletaRequestDTO requestDTO = new BicicletaRequestDTO("Marca Fantasma", "Modelo Fantasma", "2099");
+        
+        // Configuramos o mock do serviço para retornar um Optional vazio
+        when(bicicletaService.atualizarBicicleta(eq(idNaoExistente), any(BicicletaRequestDTO.class)))
+            .thenReturn(Optional.empty());
+
+        // Act & Assert (Agir e Verificar)
+        mockMvc.perform(put("/bicicleta/{id}", idNaoExistente)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isNotFound()); // Esperamos o status 404 Not Found
+    }
+
+
 }

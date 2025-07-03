@@ -163,4 +163,36 @@ class TotemControllerTest {
                 .andExpect(jsonPath("$[0].id").value(100))
                 .andExpect(jsonPath("$[0].marca").value("Caloi"));
     }
+
+    // Dentro da classe TotemControllerTest.java
+
+    @Test
+    void removerTotem_deveRetornarBadRequest_quandoServicoRetornaFalse() throws Exception {
+        // Arrange (Organizar)
+        Integer idTotem = 1;
+        // Programamos o mock para simular uma falha na remoção (ex: totem com trancas)
+        when(totemService.removerTotem(idTotem)).thenReturn(false);
+
+        // Act & Assert (Agir e Verificar)
+        mockMvc.perform(delete("/totem/{id}", idTotem))
+                .andExpect(status().isBadRequest()); // Esperamos o status 400 Bad Request
+    }
+
+
+    // Dentro da classe TotemControllerTest.java
+
+    @Test
+    void buscarTotemPorId_deveRetornarNotFound_quandoNaoEncontrado() throws Exception {
+        // Arrange
+        Integer idNaoExistente = 99;
+        // Programamos o mock do service para retornar um Optional vazio
+        when(totemService.buscarTotemPorId(idNaoExistente)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        mockMvc.perform(get("/totem/{id}", idNaoExistente)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound()); // Esperamos o status 404 Not Found
+    }
+
+
 }

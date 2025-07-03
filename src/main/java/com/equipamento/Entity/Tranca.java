@@ -11,11 +11,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Column; // Adicionado
+import jakarta.persistence.Column; 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-// O import do ToString.Exclude não é mais necessário aqui
+
 
 @NoArgsConstructor 
 @Getter
@@ -39,9 +39,7 @@ public class Tranca {
     @JoinColumn(name = "bicicleta_id")
     private Bicicleta bicicleta;
 
-    // --- ALTERAÇÃO PRINCIPAL ---
-    // Removemos a referência ao objeto Totem completo
-    // private Totem totem; 
+    
     
     // E colocamos apenas o ID no lugar
     @Column(name = "totem_id")

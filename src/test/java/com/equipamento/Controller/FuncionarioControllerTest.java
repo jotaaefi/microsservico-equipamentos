@@ -47,7 +47,7 @@ class FuncionarioControllerTest {
     // --- Teste para GET /funcionario ---
     @Test
     void listarFuncionarios_deveRetornarListaDeFuncionarios() throws Exception {
-        // Arrange (Organizando o cenário com os campos corretos)
+      
         Funcionario func1 = new Funcionario("Maria Silva", 30, FuncaoFuncionario.REPARADOR, "11122233344", "maria@email.com", "senha123");
         func1.setId(1); // O ID é gerado, então setamos manualmente para o teste
         func1.setMatricula("MAT001"); // A matrícula também é gerada

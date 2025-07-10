@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class TotemServiceTest {
@@ -173,7 +174,7 @@ class TotemServiceTest {
         // Garante que a lista de trancas está vazia
         totem.setTrancasNaRede(Arrays.asList());
 
-        when(totemRepository.findById(id)).thenReturn(Optional.of(totem));
+        when(totemRepository.findById(id)).thenReturn(Optional.of(totem)); //Mockamos a chamada do totem tambem kk
         doNothing().when(totemRepository).delete(totem); // Mocka a chamada de delete
 
         // Ação
@@ -193,7 +194,7 @@ class TotemServiceTest {
         totem.setId(id);
         // Adiciona uma tranca para simular que o totem não está vazio
         Tranca trancaMock = new Tranca(1, "Local", "2020", "Mod", StatusTranca.LIVRE);
-        totem.addTranca(trancaMock); // Assume que addTranca funciona como esperado
+        totem.addTranca(trancaMock);
 
         when(totemRepository.findById(id)).thenReturn(Optional.of(totem));
 

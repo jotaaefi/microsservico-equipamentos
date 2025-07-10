@@ -310,6 +310,7 @@ class TrancaControllerTest {
         RetirarTrancaDTO retirarDTO = new RetirarTrancaDTO(1, 1, "FUNC01", "REPARO");
         String mensagemDeErro = "A tranca não pode ser retirada pois contém uma bicicleta.";
 
+        //Mockada
         when(trancaService.retirarTrancaDoSistema(any(RetirarTrancaDTO.class))).thenReturn(mensagemDeErro);
 
         // Act & Assert

@@ -102,15 +102,15 @@ class TotemControllerTest {
         // Arrange
         Integer idTotem = 1;
 
-        // ATENÇÃO: Adapte para os campos e construtores da sua classe Tranca
+     
         Tranca tranca1 = new Tranca(10, "Ponto A", "2023", "T1", StatusTranca.LIVRE);
         Tranca tranca2 = new Tranca(11, "Ponto B", "2023", "T1", StatusTranca.OCUPADA);
 
         Totem totem = new Totem("Praca da Se", "Totem proximo a catedral");
         totem.setId(idTotem);
-        totem.setTrancasNaRede(Arrays.asList(tranca1, tranca2)); // Adicionando as trancas ao totem
+        totem.setTrancasNaRede(Arrays.asList(tranca1, tranca2)); 
 
-        // ATENÇÃO: Adapte para os campos da sua TrancaRespostaDTO
+        
         TrancaRespostaDTO dtoTranca1 = new TrancaRespostaDTO(10, 10, "Ponto A", "2023", "T1", StatusTranca.LIVRE, null);
         TrancaRespostaDTO dtoTranca2 = new TrancaRespostaDTO(11, 11, "Ponto B", "2023", "T1", StatusTranca.OCUPADA, null);
 
@@ -170,7 +170,7 @@ class TotemControllerTest {
     void removerTotem_deveRetornarBadRequest_quandoServicoRetornaFalse() throws Exception {
         // Arrange (Organizar)
         Integer idTotem = 1;
-        // Programamos o mock para simular uma falha na remoção (ex: totem com trancas)
+        // mockamos  para simular uma falha na remoção (ex: totem com trancas)
         when(totemService.removerTotem(idTotem)).thenReturn(false);
 
         // Act & Assert (Agir e Verificar)
@@ -185,7 +185,7 @@ class TotemControllerTest {
     void buscarTotemPorId_deveRetornarNotFound_quandoNaoEncontrado() throws Exception {
         // Arrange
         Integer idNaoExistente = 99;
-        // Programamos o mock do service para retornar um Optional vazio
+        //  mockamos o  service para retornar um Optional vazio
         when(totemService.buscarTotemPorId(idNaoExistente)).thenReturn(Optional.empty());
 
         // Act & Assert
@@ -199,7 +199,7 @@ class TotemControllerTest {
         
         Integer idTotemInexistente = 999;
         
-        // Configuramos o mock do serviço para simular que o totem não foi encontrado
+        //  o mockamos o serviço para simular que o totem não foi encontrado
         when(totemService.buscarTotemPorId(idTotemInexistente)).thenReturn(Optional.empty());
 
         // Act & Assert (Agir e Verificar)

@@ -8,7 +8,6 @@ import com.equipamento.dto.TotemRequestDTO;
 import com.equipamento.mapper.TotemMapper;
 
 
-//import jakarta.transaction.Transactional; // Para operações que envolvem o banco de dados
 
 import java.util.List;
 import java.util.Optional;
@@ -81,12 +80,6 @@ public class TotemService {
         return true;
     }
 
-    /**
-     * Método auxiliar para salvar um totem. Usado por outros serviços (ex: TrancaService)
-     * para atualizar o estado de um totem após operações que o afetam.
-     * @param totem Objeto Totem a ser salvo.
-     * @return O totem salvo.
-     */
    
     public Totem salvarTotem(Totem totem) { // Necessário para TrancaService
         return totemRepository.save(totem);

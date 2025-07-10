@@ -232,7 +232,7 @@ class TrancaServiceTest {
         Bicicleta bicicleta = new Bicicleta();
 
 
-        //Mockou(isolou) o findBy Id para tranca estar ocupada e o id da bike tb
+        //Mockamos (isolou) o findBy Id para tranca estar ocupada e o id da bike tb
         when(trancaRepository.findById(idTranca)).thenReturn(Optional.of(trancaOcupada));
         when(bicicletaService.buscarBicicletaPorId(100)).thenReturn(Optional.of(bicicleta));
         
@@ -253,7 +253,7 @@ class TrancaServiceTest {
         Tranca trancaOcupada = new Tranca(1, "Local", "2023", "ModX", StatusTranca.OCUPADA, bicicletaNaTranca);
 
 
-        //Mockou(isolou) o findById para tranca ocupada e o save para salvar tranca
+        //Mockamos (isolou) o findById para tranca ocupada e o save para salvar tranca
         when(trancaRepository.findById(idTranca)).thenReturn(Optional.of(trancaOcupada));
         when(trancaRepository.save(any(Tranca.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -280,7 +280,7 @@ class TrancaServiceTest {
         Tranca trancaComBicicleta = new Tranca();
         trancaComBicicleta.setBicicleta(bicicleta);
         
-        //Mockou(isolou) o find byID e retornou uma bike com tranca
+        //Mockamos (isolou) o find byID e retornou uma bike com tranca
         when(trancaRepository.findById(idTranca)).thenReturn(Optional.of(trancaComBicicleta));
 
         // Act
@@ -299,7 +299,7 @@ class TrancaServiceTest {
         Integer idTranca = 1;
         Tranca trancaSemBicicleta = new Tranca(); // Bicicleta é nula por padrão
         
-        //Mockou(isolou) a funcao byId e retornou a bike sem ID
+        //Mockamos (isolou) a funcao byId e retornou a bike sem ID
         when(trancaRepository.findById(idTranca)).thenReturn(Optional.of(trancaSemBicicleta));
 
         // Act
@@ -315,7 +315,7 @@ class TrancaServiceTest {
     void getBicicletaDeTranca_deveRetornarVazio_quandoTrancaNaoExiste() {
         // Arrange
         Integer idTranca = 99;
-        //Mockou(isolou) a funcao byId e retornou vazio
+        //Mockamos(isolou) a funcao byId e retornou vazio
         when(trancaRepository.findById(idTranca)).thenReturn(Optional.empty());
 
         // Act
@@ -337,11 +337,11 @@ class TrancaServiceTest {
         Tranca trancaLivre = new Tranca();
         
         when(trancaRepository.findById(idTranca)).thenReturn(Optional.of(trancaLivre));
-        // Mock para simular que a bicicleta não foi encontrada
+        // Mockamos para simular que a bicicleta não foi encontrada
         when(bicicletaService.buscarBicicletaPorId(999)).thenReturn(Optional.empty());
 
         // Act & Assert
-        // O seu método retorna Optional.empty() nesse caso, vamos testar isso.
+       
         Optional<Tranca> resultado = trancaService.trancar(idTranca, dto);
         assertTrue(resultado.isEmpty());
     }

@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -127,6 +127,59 @@ class FuncionarioControllerTest {
                 .andExpect(jsonPath("$.nome").value("Ana Costa"))
                 .andExpect(jsonPath("$.matricula").value("MAT004"));
     }
+
+
+    @Test
+    void atualizarFuncionario_deveRetornarFuncionarioAtualizado_quandoEncontrado() throws Exception {
+        // Arrange
+        Integer idFuncionario = 1;
+        FuncionarioRequestDTO requestDTO = new FuncionarioRequestDTO("Maria Atualizada", 31, FuncaoFuncionario.ADMINISTRATIVO, "11122233344", "maria.nova@email.com", "novaSenha");
+        
+        // Simula o objeto que o serviço retorna após a atualização
+        Funcionario funcionarioAtualizado = new Funcionario("Maria Atualizada", 31, FuncaoFuncionario.ADMINISTRATIVO, "11122233344", "maria.nova@email.com", "novaSenha");
+        funcionarioAtualizado.setId(idFuncionario);
+        funcionarioAtualizado.setMatricula("MAT001");
+        
+        FuncionarioRespostaDTO respostaDTO = new FuncionarioRespostaDTO(idFuncionario, "MAT001", "Maria Atualizada", 31, FuncaoFuncionario.ADMINISTRATIVO, "11122233344", "maria.nova@email.com");
+
+        when(funcionarioService.atualizarFuncionario(eq(idFuncionario), any(FuncionarioRequestDTO.class))).thenReturn(Optional.of(funcionarioAtualizado));
+        when(funcionarioMapper.toResponseDTO(funcionarioAtualizado)).thenReturn(respostaDTO);
+
+        // Act & Assert
+        mockMvc.perform(put("/funcionario/{id}", idFuncionario)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome").value("Maria Atualizada"))
+                .andExpect(jsonPath("$.idade").value(31));
+    }
+    
+    // --- Testes para DELETE /funcionario/{id} ---
+
+    @Test
+    void removerFuncionario_deveRetornarOk_quandoRemovidoComSucesso() throws Exception {
+        // Arrange
+        Integer idFuncionario = 1;
+        // Mockamos o serviço para simular que a remoção foi bem-sucedida
+        when(funcionarioService.removerFuncionario(idFuncionario)).thenReturn(true);
+
+        // Act & Assert
+        mockMvc.perform(delete("/funcionario/{id}", idFuncionario))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void removerFuncionario_deveRetornarNotFound_quandoFuncionarioNaoExiste() throws Exception {
+        // Arrange
+        Integer idFuncionario = 99;
+        // Mockamos o serviço para simular que o funcionário não foi encontrado para remoção
+        when(funcionarioService.removerFuncionario(idFuncionario)).thenReturn(false);
+
+        // Act & Assert
+        mockMvc.perform(delete("/funcionario/{id}", idFuncionario))
+                .andExpect(status().isNotFound());
+    }
+
 
 
 

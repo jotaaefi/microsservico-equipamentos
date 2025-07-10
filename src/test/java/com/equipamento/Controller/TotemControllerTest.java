@@ -207,4 +207,7 @@ class TotemControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound()); // Esperamos o status 404 Not Found
     }
+
+
+    
 }

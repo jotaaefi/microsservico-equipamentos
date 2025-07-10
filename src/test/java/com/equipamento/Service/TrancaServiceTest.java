@@ -326,4 +326,39 @@ class TrancaServiceTest {
 
         //Resultado esperado é vazio.
     }
+
+
+
+    @Test
+    void trancar_deveLancarExcecao_quandoBicicletaNaoEncontrada() {
+        // Arrange
+        Integer idTranca = 1;
+        IdBicicletaDTO dto = new IdBicicletaDTO(999); // ID de bicicleta que não existe
+        Tranca trancaLivre = new Tranca();
+        
+        when(trancaRepository.findById(idTranca)).thenReturn(Optional.of(trancaLivre));
+        // Mock para simular que a bicicleta não foi encontrada
+        when(bicicletaService.buscarBicicletaPorId(999)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        // O seu método retorna Optional.empty() nesse caso, vamos testar isso.
+        Optional<Tranca> resultado = trancaService.trancar(idTranca, dto);
+        assertTrue(resultado.isEmpty());
+    }
+    
+    @Test
+    void destrancar_deveLancarExcecao_quandoTrancaNaoEstaOcupada() {
+        // Arrange
+        Integer idTranca = 1;
+        Tranca trancaLivre = new Tranca(1, "Local", "2023", "ModX", StatusTranca.LIVRE); // Status inválido
+        
+        when(trancaRepository.findById(idTranca)).thenReturn(Optional.of(trancaLivre));
+        
+        // Act & Assert
+        IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
+            trancaService.destrancar(idTranca);
+        });
+        
+        assertEquals("Tranca não está ocupada ou não contém uma bicicleta.", thrown.getMessage());
+    }
 }

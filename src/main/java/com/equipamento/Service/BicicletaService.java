@@ -24,7 +24,7 @@ public class BicicletaService {
     private final BicicletaRepository bicicletaRepository;
     private final BicicletaMapper bicicletaMapper;
     private final FuncionarioService funcionarioService;
-    private final TrancaService trancaService;
+    private final TrancaServiceExterno trancaService;
     private static final AtomicInteger numeroBicicletaCounter = new AtomicInteger(0);
 
 
@@ -32,7 +32,7 @@ public class BicicletaService {
     public BicicletaService(BicicletaRepository bicicletaRepository,
                             BicicletaMapper bicicletaMapper,
                             FuncionarioService funcionarioService,
-                            @Lazy TrancaService trancaService) {
+                            @Lazy TrancaServiceExterno trancaService) { // <-- Trocamos TrancaService pela Interface aqui
         this.bicicletaRepository = bicicletaRepository;
         this.bicicletaMapper = bicicletaMapper;
         this.funcionarioService = funcionarioService;

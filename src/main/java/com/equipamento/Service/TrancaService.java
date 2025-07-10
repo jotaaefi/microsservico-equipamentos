@@ -21,7 +21,7 @@ import com.equipamento.mapper.TrancaMapper;
 
 
 @Service
-public class TrancaService {
+public class TrancaService implements TrancaServiceExterno{
    
     
     private final TrancaRepository trancaRepository;

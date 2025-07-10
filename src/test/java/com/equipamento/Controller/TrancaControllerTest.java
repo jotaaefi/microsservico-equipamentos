@@ -214,6 +214,6 @@ class TrancaControllerTest {
         // Act & Assert
         mockMvc.perform(post("/tranca/{idTranca}/destrancar", idTranca))
                 .andExpect(status().isUnprocessableEntity()) // Esperamos o status 422
-                .andExpect(content().string(mensagemErro));
+                .andExpect(jsonPath("$.message").value(mensagemErro)); // <-- CORREÇÃO AQUI
     }
 }

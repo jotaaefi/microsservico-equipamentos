@@ -3,6 +3,7 @@ package com.equipamento.Controller;
 import com.equipamento.dto.TrancaRequestDTO;
 import com.equipamento.dto.TrancaRespostaDTO;
 import com.equipamento.dto.BicicletaRespostaDTO;
+import com.equipamento.dto.ErrouDTO;
 import com.equipamento.dto.IdBicicletaDTO;
 import com.equipamento.dto.IntegrarTrancaDTO; 
 import com.equipamento.dto.RetirarTrancaDTO; 
@@ -12,15 +13,18 @@ import com.equipamento.Entity.StatusTranca;
 
 import com.equipamento.Service.TrancaService;
 import com.equipamento.mapper.BicicletaMapper;
-import com.equipamento.mapper.TrancaMapper;   
+import com.equipamento.mapper.TrancaMapper;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid; 
 import jakarta.validation.constraints.NotNull; 
 
 
 import org.springframework.http.HttpStatus; 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*; 
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -125,28 +129,53 @@ public class TrancaController {
                                   .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/{idTranca}/trancar")
-        public ResponseEntity<?> trancarBicicleta(@PathVariable Integer idTranca, @RequestBody @Valid IdBicicletaDTO dto) {
+
+
+        @PostMapping("/{idTranca}/trancar")
+
+    public ResponseEntity<Object> trancarBicicleta(@PathVariable Integer idTranca, @RequestBody @Valid IdBicicletaDTO IdBicicletaDTO, HttpServletRequest request) {
         try {
-            Optional<Tranca> trancaOpt = trancaService.trancar(idTranca, dto);
-            return trancaOpt.map(trancaMapper::toResponseDTO)
-                        .map(ResponseEntity::ok)
-                        .orElseGet(() -> ResponseEntity.notFound().build());
+            Optional<Tranca> trancaOpt = trancaService.trancar(idTranca, IdBicicletaDTO);
+            
+                    return trancaOpt
+                    .map(tranca -> {
+                    TrancaRespostaDTO dto = trancaMapper.toResponseDTO(tranca);
+                    return ResponseEntity.ok().body((Object) dto); 
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
         } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+           
+            ErrouDTO erro = new ErrouDTO(LocalDateTime.now(),HttpStatus.UNPROCESSABLE_ENTITY.value(),"Unprocessable Entity",
+                e.getMessage(),
+                request.getRequestURI()
+            );
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(erro);
         }
     }
 
 
-    @PostMapping("/{idTranca}/destrancar")
-        public ResponseEntity<?> destrancarBicicleta(@PathVariable Integer idTranca) {
+        @PostMapping("/{idTranca}/destrancar")
+    
+    public ResponseEntity<Object> destrancarBicicleta(@PathVariable Integer idTranca, HttpServletRequest request) {
         try {
             Optional<Tranca> trancaOpt = trancaService.destrancar(idTranca);
-            return trancaOpt.map(trancaMapper::toResponseDTO)
-                        .map(ResponseEntity::ok)
-                        .orElseGet(() -> ResponseEntity.notFound().build());
+            return trancaOpt
+                    .map(tranca -> {
+                        
+                        TrancaRespostaDTO respostaDTO = trancaMapper.toResponseDTO(tranca);
+                        return ResponseEntity.ok().body((Object) respostaDTO);
+                    })
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+
         } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+            ErrouDTO erro = new ErrouDTO(
+                LocalDateTime.now(),
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Unprocessable Entity",
+                e.getMessage(),
+                request.getRequestURI()
+            );
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(erro);
         }
     }
 

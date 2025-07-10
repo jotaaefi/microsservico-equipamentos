@@ -95,15 +95,30 @@ class BicicletaControllerTest {
 
     // --- Teste para DELETE /bicicleta/{id} ---
     @Test
-    void aposentarBicicleta_deveRetornarOk_quandoAposentadaComSucesso() throws Exception {
+    void removerBicicleta_deveRetornarOk_quandoRemovidaComSucesso() throws Exception {
         // Arrange
         Integer idBicicleta = 1;
-        when(bicicletaService.aposentarBicicleta(idBicicleta)).thenReturn(true);
+        // Mockamos o serviço para simular que a remoção foi bem-sucedida
+        when(bicicletaService.removerBicicleta(idBicicleta)).thenReturn(true);
 
         // Act & Assert
         mockMvc.perform(delete("/bicicleta/{id}", idBicicleta))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void removerBicicleta_deveRetornarNotFound_quandoRemocaoFalha() throws Exception {
+        // Arrange
+        Integer idBicicleta = 99;
+        // Mockamos o serviço para simular uma falha (ex: bicicleta não encontrada ou não aposentada)
+        when(bicicletaService.removerBicicleta(idBicicleta)).thenReturn(false);
+
+        // Act & Assert
+        mockMvc.perform(delete("/bicicleta/{id}", idBicicleta))
+                .andExpect(status().isNotFound());
+    }
+
+
 
     // --- Teste para POST /bicicleta/integrarNaRede ---
     @Test
@@ -160,7 +175,7 @@ class BicicletaControllerTest {
                 .andExpect(jsonPath("$.status").value("EM_REPARO"));
     }
 
-     @Test
+    @Test
     void atualizarBicicleta_deveRetornarNotFound_quandoBicicletaNaoExiste() throws Exception {
         // Arrange (Organizar)
         Integer idNaoExistente = 99;
@@ -179,7 +194,7 @@ class BicicletaControllerTest {
 
 
     @Test
-    void integrarBicicletaNaRede_deveRetornarBadRequest_quandoServicoRetornaErro() throws Exception {
+    void integrarBicicletaNaRede_deveRetornar422_quandoTrancaNaoEstaDisponivel() throws Exception {
         // Arrange
         IntegrarBicicletaDTO integrarDTO = new IntegrarBicicletaDTO(1, 10, "FUNC01");
         String mensagemDeErro = "A tranca não está disponível (LIVRE).";
@@ -191,7 +206,7 @@ class BicicletaControllerTest {
         mockMvc.perform(post("/bicicleta/integrarNaRede")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(integrarDTO)))
-                .andExpect(status().isBadRequest()) // Esperamos o status 400 Bad Request
+                .andExpect(status().isUnprocessableEntity()) // Esperamos o status 400 Bad Request
                 .andExpect(content().string(mensagemDeErro)); // E que o corpo da resposta seja a mensagem de erro
     }
 

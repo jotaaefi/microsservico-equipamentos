@@ -2,13 +2,16 @@ package com.equipamento.Controller;
 
 import com.equipamento.dto.TrancaRequestDTO;
 import com.equipamento.dto.TrancaRespostaDTO;
+import com.equipamento.dto.BicicletaRespostaDTO;
+import com.equipamento.dto.IdBicicletaDTO;
 import com.equipamento.dto.IntegrarTrancaDTO; 
 import com.equipamento.dto.RetirarTrancaDTO; 
-import com.equipamento.Entity.Tranca; 
+import com.equipamento.Entity.Tranca;
+import com.equipamento.Entity.Bicicleta;
 import com.equipamento.Entity.StatusTranca; 
 
-import com.equipamento.Service.TrancaService; 
-
+import com.equipamento.Service.TrancaService;
+import com.equipamento.mapper.BicicletaMapper;
 import com.equipamento.mapper.TrancaMapper;   
 
 import jakarta.validation.Valid; 
@@ -27,12 +30,15 @@ import java.util.Optional;
 public class TrancaController {
 
     private final TrancaService trancaService;
+    private final BicicletaMapper bicicletaMapper;
+
  
     private final TrancaMapper trancaMapper;
    
-    public TrancaController(TrancaService trancaService, TrancaMapper trancaMapper) {
+    public TrancaController(TrancaService trancaService, TrancaMapper trancaMapper, BicicletaMapper bicicletaMapper) {
         this.trancaMapper = trancaMapper;
         this.trancaService = trancaService;
+        this.bicicletaMapper = bicicletaMapper;
     }
 
     @GetMapping
@@ -84,7 +90,7 @@ public class TrancaController {
         if (resultado.contains("sucesso")) {
             return ResponseEntity.ok(resultado);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultado);
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(resultado);
         }
     }
 
@@ -95,7 +101,7 @@ public class TrancaController {
         if (resultado.contains("sucesso")) {
             return ResponseEntity.ok(resultado);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultado);
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(resultado);
         }
     }
 
@@ -118,4 +124,43 @@ public class TrancaController {
                                   .map(ResponseEntity::ok)
                                   .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @PostMapping("/{idTranca}/trancar")
+        public ResponseEntity<?> trancarBicicleta(@PathVariable Integer idTranca, @RequestBody @Valid IdBicicletaDTO dto) {
+        try {
+            Optional<Tranca> trancaOpt = trancaService.trancar(idTranca, dto);
+            return trancaOpt.map(trancaMapper::toResponseDTO)
+                        .map(ResponseEntity::ok)
+                        .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+        }
+    }
+
+
+    @PostMapping("/{idTranca}/destrancar")
+        public ResponseEntity<?> destrancarBicicleta(@PathVariable Integer idTranca) {
+        try {
+            Optional<Tranca> trancaOpt = trancaService.destrancar(idTranca);
+            return trancaOpt.map(trancaMapper::toResponseDTO)
+                        .map(ResponseEntity::ok)
+                        .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/{idTranca}/bicicleta")
+    public ResponseEntity<BicicletaRespostaDTO> getBicicletaNaTranca(@PathVariable Integer idTranca) {
+        
+        //Vai ser mocado pq usa uma funcao externa
+        Optional<Bicicleta> bicicletaOpt = trancaService.getBicicletaDeTranca(idTranca);
+        
+        return bicicletaOpt
+                .map(bicicletaMapper::toResponseDTO)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }

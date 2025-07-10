@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 class BicicletaServiceTest {
@@ -612,4 +614,40 @@ class BicicletaServiceTest {
         verify(bicicletaRepository, times(1)).findById(id);
         verify(bicicletaRepository, never()).save(any(Bicicleta.class));
     }
+
+
+    // --- Teste para remover bicicletas ---
+    @Test
+    void removerBicicleta_deveDeletar_quandoStatusForAposentada() {
+        // Cenário
+        Integer idBicicleta = 1;
+        Bicicleta bicicletaAposentada = new Bicicleta("MarcaA", "ModeloX", "2020", 1, StatusBicicleta.APOSENTADA);
+        
+        when(bicicletaRepository.findById(idBicicleta)).thenReturn(Optional.of(bicicletaAposentada));
+        doNothing().when(bicicletaRepository).delete(bicicletaAposentada);
+
+        // Ação
+        boolean resultado = bicicletaService.removerBicicleta(idBicicleta);
+
+        // Verificação
+        assertTrue(resultado);
+        verify(bicicletaRepository, times(1)).delete(bicicletaAposentada);
+    }
+
+    @Test
+    void removerBicicleta_deveRetornarFalse_quandoStatusNaoForAposentada() {
+        // Cenário
+        Integer idBicicleta = 1;
+        Bicicleta bicicletaAtiva = new Bicicleta("MarcaA", "ModeloX", "2020", 1, StatusBicicleta.DISPONIVEL);
+        
+        when(bicicletaRepository.findById(idBicicleta)).thenReturn(Optional.of(bicicletaAtiva));
+
+        // Ação
+        boolean resultado = bicicletaService.removerBicicleta(idBicicleta);
+
+        // Verificação
+        assertFalse(resultado);
+        verify(bicicletaRepository, never()).delete(any(Bicicleta.class));
+    }
+
 }

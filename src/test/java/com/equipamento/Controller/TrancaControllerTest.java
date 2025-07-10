@@ -1,10 +1,14 @@
 package com.equipamento.Controller;
 
+import com.equipamento.Entity.Bicicleta;
 import com.equipamento.Entity.StatusTranca;
 import com.equipamento.Entity.Tranca;
 import com.equipamento.Service.TrancaService;
+import com.equipamento.dto.BicicletaRespostaDTO;
+import com.equipamento.dto.IdBicicletaDTO;
 import com.equipamento.dto.TrancaRequestDTO;
 import com.equipamento.dto.TrancaRespostaDTO;
+import com.equipamento.mapper.BicicletaMapper;
 import com.equipamento.mapper.TrancaMapper;
 import com.equipamento.trabalhoES2.TrabalhoEs2Application;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +27,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -47,6 +51,9 @@ class TrancaControllerTest {
 
     @MockBean
     private TrancaMapper trancaMapper;
+
+    @MockBean
+    private BicicletaMapper bicicletaMapper;
 
     @Test
     void listarTrancas_deveRetornarListaVazia_quandoNaoHaTrancas() throws Exception {
@@ -133,7 +140,7 @@ class TrancaControllerTest {
     }
 
 
-        @Test
+    @Test
         void removerTranca_deveRetornarBadRequest_quandoServicoRetornaFalse() throws Exception {
         // Arrange
         Integer idTranca = 1;
@@ -144,5 +151,69 @@ class TrancaControllerTest {
         // Act & Assert
         mockMvc.perform(delete("/tranca/{id}", idTranca))
                 .andExpect(status().isBadRequest()); // Esperamos o status 400 Bad Request
+    }
+
+
+   
+    @Test
+    void getBicicletaNaTranca_deveRetornarBicicleta_quandoEncontrada() throws Exception {
+        // Arrange
+        Integer idTranca = 1;
+        Bicicleta bicicleta = new Bicicleta();
+        bicicleta.setId(100);
+        BicicletaRespostaDTO bicicletaDTO = new BicicletaRespostaDTO(100, "Marca", "Modelo", "2023", 123, null);
+
+        when(trancaService.getBicicletaDeTranca(idTranca)).thenReturn(Optional.of(bicicleta));
+        when(bicicletaMapper.toResponseDTO(bicicleta)).thenReturn(bicicletaDTO);
+
+        // Act & Assert
+        mockMvc.perform(get("/tranca/{idTranca}/bicicleta", idTranca))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(100));
+    }
+
+    @Test
+    void getBicicletaNaTranca_deveRetornarNotFound_quandoTrancaNaoTemBicicleta() throws Exception {
+        // Arrange
+        Integer idTranca = 1;
+        when(trancaService.getBicicletaDeTranca(idTranca)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        mockMvc.perform(get("/tranca/{idTranca}/bicicleta", idTranca))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void trancarBicicleta_deveRetornarOk_quandoTrancamentoBemSucedido() throws Exception {
+        // Arrange
+        Integer idTranca = 1;
+        IdBicicletaDTO requestDTO = new IdBicicletaDTO(100);
+        Tranca trancaAtualizada = new Tranca(1, "Local", "2023", "Mod", StatusTranca.OCUPADA);
+        TrancaRespostaDTO respostaDTO = new TrancaRespostaDTO(1, 1, "Local", "2023", "Mod", StatusTranca.OCUPADA, null);
+
+        when(trancaService.trancar(eq(idTranca), any(IdBicicletaDTO.class))).thenReturn(Optional.of(trancaAtualizada));
+        when(trancaMapper.toResponseDTO(trancaAtualizada)).thenReturn(respostaDTO);
+
+        // Act & Assert
+        mockMvc.perform(post("/tranca/{idTranca}/trancar", idTranca)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.statusTranca").value("OCUPADA"));
+    }
+
+    @Test
+    void destrancarBicicleta_deveRetornarUnprocessableEntity_quandoRegraDeNegocioFalha() throws Exception {
+        
+        Integer idTranca = 1;
+        String mensagemErro = "Tranca não está ocupada ou não contém uma bicicleta.";
+        
+        // Mockamos o serviço para lançar a exceção que o controller captura
+        when(trancaService.destrancar(idTranca)).thenThrow(new IllegalStateException(mensagemErro));
+
+        // Act & Assert
+        mockMvc.perform(post("/tranca/{idTranca}/destrancar", idTranca))
+                .andExpect(status().isUnprocessableEntity()) // Esperamos o status 422
+                .andExpect(content().string(mensagemErro));
     }
 }

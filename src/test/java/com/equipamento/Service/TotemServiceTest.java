@@ -23,21 +23,21 @@ import static org.mockito.Mockito.*;
 
 class TotemServiceTest {
 
-    @Mock // Simula o repositório TotemRepository
+    @Mock 
     private TotemRepository totemRepository;
 
-    @Mock // Simula o mapper TotemMapper
+    @Mock 
     private TotemMapper totemMapper;
 
-    @Mock // Simula o serviço de tranca (para interações de Totem com Tranca)
-    private TrancaService trancaService; // Pode ser necessário se o TotemService precisar interagir com TrancaService de forma mais profunda
+    @Mock 
+    private TrancaService trancaService; 
 
-    @InjectMocks // Injeta os mocks automaticamente no serviço a ser testado
+    @InjectMocks 
     private TotemService totemService;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this); // Inicializa os mocks antes de cada teste
+        MockitoAnnotations.openMocks(this); 
     }
 
     // -----------------------------------------------------------------------------------

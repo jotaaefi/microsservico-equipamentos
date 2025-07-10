@@ -5,8 +5,8 @@ import com.equipamento.Entity.Bicicleta;
 import com.equipamento.Entity.StatusBicicleta; 
 import com.equipamento.Entity.Totem;     
 
-import com.equipamento.Repository.TrancaRepository; 
-
+import com.equipamento.Repository.TrancaRepository;
+import com.equipamento.dto.IdBicicletaDTO;
 import com.equipamento.dto.IntegrarTrancaDTO; 
 import com.equipamento.dto.RetirarTrancaDTO; 
 import com.equipamento.mapper.TrancaMapper; 
@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 class TrancaServiceTest {
@@ -40,6 +42,9 @@ class TrancaServiceTest {
 
     @InjectMocks
     private TrancaService trancaService;
+
+    @Mock
+    private BicicletaService bicicletaService;
 
     @BeforeEach
     void setUp() {
@@ -173,6 +178,7 @@ class TrancaServiceTest {
         
         tranca.setTotemId(totem.getId());
 
+        //Mockou(isolou) todos esses when. Retornando true, a tranca(id1), totemID100 e salvando a tranca e os totem.
         when(funcionarioService.verificarFuncionarioExiste()).thenReturn(true);
         when(trancaRepository.findById(1)).thenReturn(Optional.of(tranca));
         when(totemService.buscarTotemPorId(100)).thenReturn(Optional.of(totem));
@@ -189,5 +195,135 @@ class TrancaServiceTest {
         assertNull(tranca.getTotemId());
     }
     
-    
+    @Test
+    void trancar_deveTrancarBicicleta_quandoValido() {
+        // Arrange (Cenário)
+        Integer idTranca = 1;
+        Integer idBicicleta = 100;
+        IdBicicletaDTO dto = new IdBicicletaDTO(idBicicleta);
+
+        // Criamos uma tranca LIVRE e uma bicicleta EM_USO, que são as pré-condições
+        Tranca trancaLivre = new Tranca(1, "Local", "2023", "ModX", StatusTranca.LIVRE);
+        Bicicleta bicicletaEmUso = new Bicicleta("Marca", "Modelo", "2023", 1, StatusBicicleta.EM_USO);
+        
+        when(trancaRepository.findById(idTranca)).thenReturn(Optional.of(trancaLivre));
+        when(bicicletaService.buscarBicicletaPorId(idBicicleta)).thenReturn(Optional.of(bicicletaEmUso));
+        // Mockamos a chamada para salvar a tranca
+        when(trancaRepository.save(any(Tranca.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Act (Ação)
+        Optional<Tranca> resultado = trancaService.trancar(idTranca, dto);
+
+        // Assert (Verificação)
+        assertTrue(resultado.isPresent());
+        Tranca trancaAtualizada = resultado.get();
+        assertEquals(StatusTranca.OCUPADA, trancaAtualizada.getStatusTranca());
+        assertEquals(StatusBicicleta.DISPONIVEL, trancaAtualizada.getBicicleta().getStatus());
+        assertNotNull(trancaAtualizada.getBicicleta());
+        verify(trancaRepository, times(1)).save(trancaAtualizada);
+    }
+
+    @Test
+    void trancar_deveLancarExcecao_quandoTrancaNaoEstaLivre() {
+        // Arrange
+        Integer idTranca = 1;
+        IdBicicletaDTO dto = new IdBicicletaDTO(100);
+        Tranca trancaOcupada = new Tranca(1, "Local", "2023", "ModX", StatusTranca.OCUPADA); // Status inválido
+        Bicicleta bicicleta = new Bicicleta();
+
+
+        //Mockou(isolou) o findBy Id para tranca estar ocupada e o id da bike tb
+        when(trancaRepository.findById(idTranca)).thenReturn(Optional.of(trancaOcupada));
+        when(bicicletaService.buscarBicicletaPorId(100)).thenReturn(Optional.of(bicicleta));
+        
+        // Act & Assert
+        IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
+            trancaService.trancar(idTranca, dto);
+        });
+        
+        assertEquals("Tranca não está livre para receber uma bicicleta.", thrown.getMessage());
+    }
+
+    // Testes para o método destrancar()
+    @Test
+    void destrancar_deveDestrancarBicicleta_quandoValido() {
+        // Arrange
+        Integer idTranca = 1;
+        Bicicleta bicicletaNaTranca = new Bicicleta("Marca", "Modelo", "2023", 1, StatusBicicleta.DISPONIVEL);
+        Tranca trancaOcupada = new Tranca(1, "Local", "2023", "ModX", StatusTranca.OCUPADA, bicicletaNaTranca);
+
+
+        //Mockou(isolou) o findById para tranca ocupada e o save para salvar tranca
+        when(trancaRepository.findById(idTranca)).thenReturn(Optional.of(trancaOcupada));
+        when(trancaRepository.save(any(Tranca.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Act
+        Optional<Tranca> resultado = trancaService.destrancar(idTranca);
+
+        // Assert
+        assertTrue(resultado.isPresent());
+        Tranca trancaAtualizada = resultado.get();
+        assertEquals(StatusTranca.LIVRE, trancaAtualizada.getStatusTranca());
+        assertEquals(StatusBicicleta.EM_USO, bicicletaNaTranca.getStatus());
+        assertNull(trancaAtualizada.getBicicleta());
+        verify(trancaRepository, times(1)).save(trancaAtualizada);
+
+        //resultado é detrancar se tiver valido né
+    }
+
+    // Testes para o método getBicicletaDeTranca()
+    @Test
+    void getBicicletaDeTranca_deveRetornarBicicleta_quandoExiste() {
+        // Arrange
+        Integer idTranca = 1;
+        Bicicleta bicicleta = new Bicicleta();
+        Tranca trancaComBicicleta = new Tranca();
+        trancaComBicicleta.setBicicleta(bicicleta);
+        
+        //Mockou(isolou) o find byID e retornou uma bike com tranca
+        when(trancaRepository.findById(idTranca)).thenReturn(Optional.of(trancaComBicicleta));
+
+        // Act
+        Optional<Bicicleta> resultado = trancaService.getBicicletaDeTranca(idTranca);
+
+        // Assert
+        assertTrue(resultado.isPresent());
+        assertEquals(bicicleta, resultado.get());
+
+        //resultado esperado é uma bike kkkkkkk.
+    }
+
+    @Test
+    void getBicicletaDeTranca_deveRetornarVazio_quandoNaoExisteBicicleta() {
+        // Arrange
+        Integer idTranca = 1;
+        Tranca trancaSemBicicleta = new Tranca(); // Bicicleta é nula por padrão
+        
+        //Mockou(isolou) a funcao byId e retornou a bike sem ID
+        when(trancaRepository.findById(idTranca)).thenReturn(Optional.of(trancaSemBicicleta));
+
+        // Act
+        Optional<Bicicleta> resultado = trancaService.getBicicletaDeTranca(idTranca);
+
+        // Assert
+        assertTrue(resultado.isEmpty());
+
+        //Resultado esperado é vazio.
+    }
+
+    @Test
+    void getBicicletaDeTranca_deveRetornarVazio_quandoTrancaNaoExiste() {
+        // Arrange
+        Integer idTranca = 99;
+        //Mockou(isolou) a funcao byId e retornou vazio
+        when(trancaRepository.findById(idTranca)).thenReturn(Optional.empty());
+
+        // Act
+        Optional<Bicicleta> resultado = trancaService.getBicicletaDeTranca(idTranca);
+
+        // Assert
+        assertTrue(resultado.isEmpty());
+
+        //Resultado esperado é vazio.
+    }
 }

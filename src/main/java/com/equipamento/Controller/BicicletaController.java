@@ -77,11 +77,16 @@ public class BicicletaController {
                                      .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+
+
+   
+
     @DeleteMapping("/{id}") 
-    public ResponseEntity<Void> aposentarBicicleta(@PathVariable("id") @NotNull Integer id) {
-        boolean aposentada = bicicletaService.aposentarBicicleta(id);
-        return aposentada ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+    public ResponseEntity<Void> removerBicicleta(@PathVariable("id") @NotNull Integer id) {
+    boolean removida = bicicletaService.removerBicicleta(id);
+    return removida ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
+    
 
     @PostMapping("/integrarNaRede")
     public ResponseEntity<String> integrarBicicletaNaRede(@RequestBody @Valid IntegrarBicicletaDTO dto) {
@@ -89,7 +94,7 @@ public class BicicletaController {
         if (resultado.contains("sucesso")) {
             return ResponseEntity.ok(resultado);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultado);
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(resultado);
         }
     }
 
@@ -99,7 +104,7 @@ public class BicicletaController {
         if (resultado.contains("sucesso")) {
             return ResponseEntity.ok(resultado);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultado);
+             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(resultado);
         }
     }
 

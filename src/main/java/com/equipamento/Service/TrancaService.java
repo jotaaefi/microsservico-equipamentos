@@ -6,10 +6,13 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.equipamento.Entity.Bicicleta;
+import com.equipamento.Entity.StatusBicicleta;
 import com.equipamento.Entity.StatusTranca;
 import com.equipamento.Entity.Totem;
 import com.equipamento.Entity.Tranca;
 import com.equipamento.Repository.TrancaRepository;
+import com.equipamento.dto.IdBicicletaDTO;
 import com.equipamento.dto.IntegrarTrancaDTO;
 import com.equipamento.dto.RetirarTrancaDTO;
 import com.equipamento.dto.TrancaRequestDTO;
@@ -25,16 +28,17 @@ public class TrancaService {
     private final TrancaMapper trancaMapper;
     private final FuncionarioService funcionarioService;
     private final TotemService totemService;
-    
+    private final BicicletaService bicicletaService;
 
     public TrancaService(TrancaRepository trancaRepository,
                          TrancaMapper trancaMapper,
                          FuncionarioService funcionarioService,
-                         TotemService totemService) {
+                         TotemService totemService, BicicletaService bicicletaService) {
         this.trancaRepository = trancaRepository;
         this.trancaMapper = trancaMapper;
         this.funcionarioService = funcionarioService;
         this.totemService = totemService;
+        this.bicicletaService = bicicletaService;
     }
 
     
@@ -244,5 +248,67 @@ public class TrancaService {
         return Optional.of(trancaRepository.save(tranca));
     }
 
+
+    public Optional<Tranca> trancar(Integer idTranca, IdBicicletaDTO dto) {
+        Optional<Tranca> trancaOpt = this.buscarTrancaPorId(idTranca);
+       
+        Optional<Bicicleta> bicicletaOpt = bicicletaService.buscarBicicletaPorId(dto.idBicicleta());
+
+        if (trancaOpt.isEmpty() || bicicletaOpt.isEmpty()) {
+            return Optional.empty(); // Tranca ou Bicicleta não encontrada
+        }
+
+        Tranca tranca = trancaOpt.get();
+        Bicicleta bicicleta = bicicletaOpt.get();
+
+        // Valida as pré-condições
+        if (tranca.getBicicleta() != null || tranca.getStatusTranca() != StatusTranca.LIVRE) {
+            throw new IllegalStateException("Tranca não está livre para receber uma bicicleta.");
+        }
+        if (bicicleta.getStatus() != StatusBicicleta.EM_USO) {
+            throw new IllegalStateException("Bicicleta não está em um status que permita a devolução.");
+        }
+
+        
+        tranca.setBicicleta(bicicleta);
+        tranca.setStatusTranca(StatusTranca.OCUPADA);
+        bicicleta.setStatus(StatusBicicleta.DISPONIVEL); // Bicicleta agora está disponível na rede
+
+        
+        return Optional.of(this.salvarTranca(tranca));
+    }
+
+
+    public Optional<Tranca> destrancar(Integer idTranca) {
+        Optional<Tranca> trancaOpt = this.buscarTrancaPorId(idTranca);
+        if (trancaOpt.isEmpty()) {
+            return Optional.empty(); // Tranca não encontrada
+        }
+
+        Tranca tranca = trancaOpt.get();
+        Bicicleta bicicleta = tranca.getBicicleta();
+
+        // Valida as pré-condições
+        if (bicicleta == null || tranca.getStatusTranca() != StatusTranca.OCUPADA) {
+            throw new IllegalStateException("Tranca não está ocupada ou não contém uma bicicleta.");
+        }
+        
+       
+        tranca.setBicicleta(null); // Desassocia a bicicleta
+        tranca.setStatusTranca(StatusTranca.LIVRE);
+        bicicleta.setStatus(StatusBicicleta.EM_USO);
+
+       
+        return Optional.of(this.salvarTranca(tranca));
+    }
+
+
+
+    public Optional<Bicicleta> getBicicletaDeTranca(Integer idTranca) {
+        // Busca a tranca pelo ID
+        Optional<Tranca> trancaOpt = trancaRepository.findById(idTranca);
+
+        return trancaOpt.flatMap(tranca -> Optional.ofNullable(tranca.getBicicleta()));
+    }
 
 }

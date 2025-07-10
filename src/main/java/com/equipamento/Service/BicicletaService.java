@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.equipamento.Entity.Bicicleta;
@@ -32,7 +32,7 @@ public class BicicletaService {
     public BicicletaService(BicicletaRepository bicicletaRepository,
                             BicicletaMapper bicicletaMapper,
                             FuncionarioService funcionarioService,
-                            TrancaService trancaService) {
+                            @Lazy TrancaService trancaService) {
         this.bicicletaRepository = bicicletaRepository;
         this.bicicletaMapper = bicicletaMapper;
         this.funcionarioService = funcionarioService;
@@ -208,4 +208,22 @@ public class BicicletaService {
         bicicleta.setStatus(novoStatus);
         return Optional.of(bicicletaRepository.save(bicicleta));
     }
+
+    public boolean removerBicicleta(Integer idBicicleta) {
+            Optional<Bicicleta> bicicletaOpt = bicicletaRepository.findById(idBicicleta);
+            
+            if (bicicletaOpt.isEmpty()) {
+                return false;
+            }
+
+            Bicicleta bicicleta = bicicletaOpt.get();
+            
+            if (bicicleta.getStatus() != StatusBicicleta.APOSENTADA) {
+                return false;
+            }
+
+            bicicletaRepository.delete(bicicleta);
+            return true;
+        }
+
 }

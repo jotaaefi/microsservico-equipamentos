@@ -3,6 +3,8 @@ package com.equipamento.Service; // Seu pacote atual
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.springframework.transaction.annotation.Transactional;
+
 
 
 import org.springframework.stereotype.Service; 
@@ -49,7 +51,7 @@ public class FuncionarioService {
      * parametro -> requestDTO Dados do funcionário a ser criado.
      * retorna O funcionário criado e salvo no banco de dados.
      */
-    //@Transactional
+    @Transactional
     public Funcionario criarFuncionario(FuncionarioRequestDTO requestDTO) {
         Funcionario novoFuncionario = funcionarioMapper.toEntity(requestDTO);
         novoFuncionario.setMatricula(String.valueOf(matriculaCounter.incrementAndGet()));
@@ -65,7 +67,7 @@ public class FuncionarioService {
     }
 
    
-    //@Transactional
+    @Transactional
     public Optional<Funcionario> atualizarFuncionario(Integer id, FuncionarioRequestDTO requestDTO) {
         Optional<Funcionario> funcionarioOpt = funcionarioRepository.findById(id);
 
@@ -99,7 +101,7 @@ public class FuncionarioService {
      *  id O ID do funcionário a ser removido.
      * retorna true se o funcionário foi removido com sucesso, false caso contrário.
      */
-    //@Transactional
+    @Transactional
     public boolean removerFuncionario(Integer id) {
         if (funcionarioRepository.existsById(id)) {
             funcionarioRepository.deleteById(id);

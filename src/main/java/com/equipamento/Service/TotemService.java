@@ -7,6 +7,8 @@ import com.equipamento.Repository.TotemRepository;
 import com.equipamento.dto.TotemRequestDTO;
 import com.equipamento.mapper.TotemMapper;
 
+import org.springframework.transaction.annotation.Transactional;
+
 
 
 import java.util.List;
@@ -24,17 +26,19 @@ public class TotemService {
         this.totemRepository = totemRepository;
     }
 
+    @Transactional
     public List<Totem> listarTotens() { 
         return totemRepository.findAll();
     }
 
-
+    
+    @Transactional
     public Optional<Totem> buscarTotemPorId(Integer id) { // Necessário para TrancaService
         return totemRepository.findById(id);
     }
 
 
-   
+    @Transactional
     public Totem criarTotem(TotemRequestDTO requestDTO) {
         
         Totem novoTotem =  totemMapper.toEntity(requestDTO);
@@ -42,7 +46,7 @@ public class TotemService {
     }
 
    
-   
+    @Transactional
     public Optional<Totem> atualizarTotem(Integer id, TotemRequestDTO requestDTO) {
         Optional<Totem> totemOpt = totemRepository.findById(id);
 
@@ -61,7 +65,7 @@ public class TotemService {
     }
 
    
-   
+    @Transactional
     public boolean removerTotem(Integer id) { // UC14 - Manter Cadastro de Totens (Remoção)
         Optional<Totem> totemOpt = totemRepository.findById(id);
 
@@ -80,7 +84,7 @@ public class TotemService {
         return true;
     }
 
-   
+    @Transactional
     public Totem salvarTotem(Totem totem) { // Necessário para TrancaService
         return totemRepository.save(totem);
     }

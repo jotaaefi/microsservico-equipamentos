@@ -5,6 +5,7 @@ import java.util.Optional;
 
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.equipamento.Entity.Bicicleta;
 import com.equipamento.Entity.StatusBicicleta;
@@ -43,18 +44,18 @@ public class TrancaService implements TrancaServiceExterno{
 
     
 
-    
+    @Transactional
     public List<Tranca> listarTrancas() { // Nome mais claro
         return trancaRepository.findAll();
     }
 
- 
+    @Transactional
     public Optional<Tranca> buscarTrancaPorId(Integer id) {
         return trancaRepository.findById(id);
     }
 
 
-   
+    @Transactional
     public Tranca criarTranca(TrancaRequestDTO requestDTO) {
         // Converte o DTO para entidade Tranca (mapper já configura status NOVA e ignora ID)
         Tranca novaTranca = trancaMapper.toEntity(requestDTO);
@@ -62,7 +63,7 @@ public class TrancaService implements TrancaServiceExterno{
     }
 
     
-  
+    @Transactional
     public Optional<Tranca> atualizarTranca(Integer id, TrancaRequestDTO requestDTO) {
         Optional<Tranca> trancaOpt = trancaRepository.findById(id);
 
@@ -81,7 +82,7 @@ public class TrancaService implements TrancaServiceExterno{
     }
 
    
-   
+    @Transactional
     public boolean removerTranca(Integer id) { // UC13 - Manter Cadastro de Trancas (Remoção)
         Optional<Tranca> trancaOpt = trancaRepository.findById(id);
 
@@ -110,7 +111,7 @@ public class TrancaService implements TrancaServiceExterno{
 
 
     // UC11 - Incluir Tranca em Totem
-  
+    @Transactional
     public String integrarTrancaEmTotem(IntegrarTrancaDTO dto) {
         // 1. Validação do funcionário (Reparador)
         boolean funcionarioExiste = funcionarioService.verificarFuncionarioExiste();
@@ -158,7 +159,7 @@ public class TrancaService implements TrancaServiceExterno{
     }
 
 
-   
+    @Transactional
     public String retirarTrancaDoSistema(RetirarTrancaDTO dto) {
         // 1. Validação do funcionário (Reparador)
         boolean funcionarioExiste = funcionarioService.verificarFuncionarioExiste();
@@ -222,12 +223,12 @@ public class TrancaService implements TrancaServiceExterno{
     }
 
    
-    
+    @Transactional
     public Tranca salvarTranca(Tranca tranca) {
         return trancaRepository.save(tranca);
     }
 
-
+    @Transactional
     public Optional<Tranca> buscarTrancaPorBicicletaId(Integer bicicletaId) {
         return trancaRepository.findAll().stream()
                 .filter(tranca -> tranca.getBicicleta() != null && tranca.getBicicleta().getId().equals(bicicletaId))
@@ -236,7 +237,7 @@ public class TrancaService implements TrancaServiceExterno{
 
 
     
-   
+    @Transactional
     public Optional<Tranca> atualizarStatusTranca(Integer idTranca, StatusTranca novoStatus) {
         Optional<Tranca> trancaOpt = trancaRepository.findById(idTranca);
         if (trancaOpt.isEmpty()) {
@@ -248,7 +249,7 @@ public class TrancaService implements TrancaServiceExterno{
         return Optional.of(trancaRepository.save(tranca));
     }
 
-
+    @Transactional
     public Optional<Tranca> trancar(Integer idTranca, IdBicicletaDTO dto) {
         Optional<Tranca> trancaOpt = this.buscarTrancaPorId(idTranca);
        
@@ -278,7 +279,7 @@ public class TrancaService implements TrancaServiceExterno{
         return Optional.of(this.salvarTranca(tranca));
     }
 
-
+    @Transactional
     public Optional<Tranca> destrancar(Integer idTranca) {
         Optional<Tranca> trancaOpt = this.buscarTrancaPorId(idTranca);
         if (trancaOpt.isEmpty()) {
@@ -303,7 +304,7 @@ public class TrancaService implements TrancaServiceExterno{
     }
 
 
-
+    @Transactional
     public Optional<Bicicleta> getBicicletaDeTranca(Integer idTranca) {
         // Busca a tranca pelo ID
         Optional<Tranca> trancaOpt = trancaRepository.findById(idTranca);

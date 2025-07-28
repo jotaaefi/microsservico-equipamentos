@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.equipamento.Entity.Bicicleta;
 import com.equipamento.Entity.StatusBicicleta;
@@ -40,18 +41,19 @@ public class BicicletaService {
     }
 
 
-
+    @Transactional
     public List<Bicicleta> listarBicicletas() {
         return bicicletaRepository.findAll();
     }
 
-
+     
+    @Transactional
     public Optional<Bicicleta> buscarBicicletaPorId(Integer id) {
         return bicicletaRepository.findById(id);
     }
 
    
-    //@Transactional
+    @Transactional
     public Bicicleta criarBicicleta(BicicletaRequestDTO requestDTO) {
         Bicicleta novaBicicleta = bicicletaMapper.toEntity(requestDTO);
         novaBicicleta.setNumero(numeroBicicletaCounter.incrementAndGet());
@@ -59,7 +61,7 @@ public class BicicletaService {
     }
 
    
-    //@Transactional
+    @Transactional
     public Optional<Bicicleta> atualizarBicicleta(Integer id, BicicletaRequestDTO requestDTO) {
         Optional<Bicicleta> bicicletaOpt = bicicletaRepository.findById(id);
         if (bicicletaOpt.isEmpty()) {
@@ -73,7 +75,7 @@ public class BicicletaService {
     }
 
   
-    //@Transactional
+    @Transactional
     public boolean aposentarBicicleta(Integer id) {
         Optional<Bicicleta> bicicletaOpt = bicicletaRepository.findById(id);
         if (bicicletaOpt.isEmpty()) {
@@ -93,7 +95,7 @@ public class BicicletaService {
     }
 
   
-    //@Transactional
+    @Transactional
     public String integrarBicicletaNaRede(IntegrarBicicletaDTO dto) {
         // Validação do funcionário (Reparador - UC08 Atores). Esta chamada depende do FuncionarioService ter verificarFuncionarioExiste.
         // Se o FuncionarioService não tiver este método ou for simplificado, esta linha pode precisar de um mock ou comportamento falso temporário.
@@ -140,7 +142,7 @@ public class BicicletaService {
     }
 
   
-    //@Transactional
+    @Transactional
     public String retirarBicicletaDaRede(RetirarBicicletaDTO dto) {
         // Validação do funcionário (Reparador - UC09 Atores)
         // Se o FuncionarioService não tiver este método ou for simplificado, esta linha pode precisar de um mock ou comportamento falso temporário.
@@ -197,7 +199,7 @@ public class BicicletaService {
         return "Bicicleta retirada da rede com sucesso.";
     }
 
-    //@Transactional
+    @Transactional
     public Optional<Bicicleta> atualizarStatusBicicleta(Integer idBicicleta, StatusBicicleta novoStatus) {
         Optional<Bicicleta> bicicletaOpt = bicicletaRepository.findById(idBicicleta);
         if (bicicletaOpt.isEmpty()) {

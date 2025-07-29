@@ -154,7 +154,6 @@ public class TrancaController {
 
 
     @PostMapping("/{idTranca}/destrancar")
-    
     public ResponseEntity<Object> destrancarBicicleta(@PathVariable Integer idTranca, HttpServletRequest request) {
         try {
             Optional<Tranca> trancaOpt = trancaService.destrancar(idTranca);

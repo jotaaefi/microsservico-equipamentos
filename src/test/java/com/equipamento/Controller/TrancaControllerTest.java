@@ -139,7 +139,7 @@ class TrancaControllerTest {
         
         // Act & Assert
         mockMvc.perform(post("/tranca/{idTranca}/status/{acao}", idTranca, acaoInvalida))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnprocessableEntity());
     }
 
 

@@ -129,6 +129,7 @@ public class TrancaController {
                                   .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+        
 
 
     @PostMapping("/{idTranca}/trancar")
@@ -141,7 +142,7 @@ public class TrancaController {
                     TrancaRespostaDTO dto = trancaMapper.toResponseDTO(tranca);
                     return ResponseEntity.ok().body((Object) dto); 
                 })
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
         } catch (IllegalStateException e) {
            
             ErrouDTO erro = new ErrouDTO(LocalDateTime.now(),HttpStatus.UNPROCESSABLE_ENTITY.value(),"Unprocessable Entity",
@@ -163,7 +164,7 @@ public class TrancaController {
                         TrancaRespostaDTO respostaDTO = trancaMapper.toResponseDTO(tranca);
                         return ResponseEntity.ok().body((Object) respostaDTO);
                     })
-                    .orElseGet(() -> ResponseEntity.notFound().build());
+                    .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 
         } catch (IllegalStateException e) {
             ErrouDTO erro = new ErrouDTO(

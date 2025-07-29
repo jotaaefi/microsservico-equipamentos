@@ -70,7 +70,7 @@ public ResponseEntity<FuncionarioRespostaDTO> atualizarFuncionario(@PathVariable
         Optional<Funcionario> funcionarioAtualizadoOpt = funcionarioService.atualizarFuncionario(id, requestDTO);
         return funcionarioAtualizadoOpt.map(funcionarioMapper::toResponseDTO)
                                      .map(ResponseEntity::ok)
-                                     .orElseGet(() -> ResponseEntity.notFound().build());
+                                     .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     } catch (IllegalArgumentException e) {
         // RETORNE ResponseEntity<String> em vez de FuncionarioRespostaDTO com nulls
         return ResponseEntity.badRequest().build(); // Retorna 400 Bad Request com a mensagem de erro

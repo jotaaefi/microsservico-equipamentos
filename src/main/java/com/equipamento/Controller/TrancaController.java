@@ -117,11 +117,11 @@ public class TrancaController {
         
         
         StatusTranca novoStatus;
-        try {
-            novoStatus = StatusTranca.valueOf(acao.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build(); // Ação de status inválida
-        }
+       try {
+    novoStatus = StatusTranca.valueOf(acao.toUpperCase());
+} catch (IllegalArgumentException e) {
+    return ResponseEntity.unprocessableEntity().build();
+}
 
         Optional<Tranca> trancaAtualizadaOpt = trancaService.atualizarStatusTranca(idTranca, novoStatus);
         return trancaAtualizadaOpt.map(trancaMapper::toResponseDTO)
@@ -131,8 +131,7 @@ public class TrancaController {
 
 
 
-        @PostMapping("/{idTranca}/trancar")
-
+    @PostMapping("/{idTranca}/trancar")
     public ResponseEntity<Object> trancarBicicleta(@PathVariable Integer idTranca, @RequestBody @Valid IdBicicletaDTO IdBicicletaDTO, HttpServletRequest request) {
         try {
             Optional<Tranca> trancaOpt = trancaService.trancar(idTranca, IdBicicletaDTO);
@@ -154,7 +153,7 @@ public class TrancaController {
     }
 
 
-        @PostMapping("/{idTranca}/destrancar")
+    @PostMapping("/{idTranca}/destrancar")
     
     public ResponseEntity<Object> destrancarBicicleta(@PathVariable Integer idTranca, HttpServletRequest request) {
         try {
